@@ -120,6 +120,14 @@ typedef struct Node {
 Node *front=NULL, *rear=NULL;
 
 /*
+	If the user decides it to be a size restricted queue, limit will contain
+	the number of maximum allowed nodes in the queue, and count will contain
+	the number of presently inserted nodes.
+*/
+
+int limit = -1, count = 0;
+
+/*
 	Prints the status message for a particular status code. This is done
 	to remove all the interface clutter from the actual operation code.
 	
@@ -303,6 +311,9 @@ Status addNode(Position pos, Node *aNode){
 	//Check if the position is valid
 	if(pos==UNDEFINED)
 		return INVALID_POSITION_SPECIFIED;
+	//Check if the queue is full
+	if(count==limit)
+		return QUEUE_OVERFLOW;
 	//Check if the insertion is to be performed at the front
 	if(pos==FRONT){
 		//Check if at all any node is present in the queue
@@ -336,6 +347,7 @@ Status addNode(Position pos, Node *aNode){
 			rear = aNode;
 		}
 	}
+	count++;
 	return OP_SUCCESS;
 }
 
@@ -396,6 +408,7 @@ Status deleteNode(Position pos){
 		//Break the link
 		del->nextNode = NULL;
 	}
+	count--;
 	return OP_SUCCESS;
 }
 
@@ -406,21 +419,29 @@ Status deleteNode(Position pos){
 
 
 int main(){
-	int choice = 1;
+	int choice = -1;
 	//Print welcome message
 	printf("Welcome to QueueSimulator\n");
 	printf("=========================\n");
+	//Ask the user if the queue is size restricted
+	printf("Do you want the queue to be size restricted?\nPress 1 to specify a size of the queue\nPress any other key to skip : ");
+	scanf("%d",&choice);
+	if(choice==1){
+		//If it is, get the size and store it to limit
+		printf("Specify the size of the queue : ");
+		scanf("%d",&limit);
+	}
 	//Add atleast one node before performing any operation
 	printf("Before we continue, add at least one Node.\n");
 	//Acquire a new node from the user and check if it succeeds.
 	if(acquireNode()==OP_SUCCESS){
 		//If it does, add the node to the queue, and print the status
 		printstatus(addNode(FRONT, createdNode), INSERTION);
+		choice = 1;
 	}
 	else{
 		//If the first node can't be created, exit from the program immediately
 		printf("Fatal error! Program will now terminate!");
-		choice = 5;
 	}
 	//The infinite choice-loop
 	while(choice>0 && choice<4){
