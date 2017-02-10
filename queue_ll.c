@@ -118,7 +118,7 @@ typedef union Data {
 				  a real value, a 3 indicates a character value.
 			2. value : The actual data of the node
 			----------
-			3. nextnode : The pointer to the next node in the queue.
+			3. nextNode : The pointer to the next node in the queue.
 			-------------
 */
 
@@ -209,7 +209,7 @@ Position getpos(OP_Type op){
 }
 
 /*
-	Traverse and display the queue.
+	Traverses and displays the queue.
 	
 	Return value : Any one of the following statuses,
 	--------------	1. QUEUE_UNDERFLOW
@@ -258,7 +258,7 @@ int retry(){
 	return choice==1?1:0;
 }
 /*
-	Method for acquiring a node from the user. This method saves the acquired node in the global
+	Acquires a node from the user. This method saves the acquired node in the global
 	variable createdNode, for later use - typically by addNode().
 	
 	Return value : This method returns one of the following statuses,
@@ -313,7 +313,7 @@ Status acquireNode(){
 }
 
 /*
-	Method to insert a node in the queue.
+	Inserts a node in the queue.
 	
 	Arguments :	1. pos : The position in which the new node is to be inserted
 	-----------	2. aNode : The node to be inserted
@@ -344,7 +344,7 @@ Status addNode(Position pos, Node *aNode){
 	else if(pos==FRONT){
 		//Insert front at the end of this node
 		aNode->nextNode = front;
-		//Set front to the present node
+		//Set front to the this node
 		front = aNode;
 	}
 	//Check if the insertion is to be performed at the rear
@@ -355,12 +355,13 @@ Status addNode(Position pos, Node *aNode){
 		//Set rear to this node
 		rear = aNode;
 	}
+	//Increase the counter
 	count++;
 	return OP_SUCCESS;
 }
 
 /*
-	Delete a node from the queue.
+	Deletes a node from the queue.
 	
 	Arguments :	1. pos : The position from which the node is to be deleted
 	-----------
@@ -416,6 +417,7 @@ Status deleteNode(Position pos){
 		//Break the link
 		del->nextNode = NULL;
 	}
+	//Decrease the counter
 	count--;
 	return OP_SUCCESS;
 }
@@ -454,7 +456,7 @@ int main(){
 	//The infinite choice-loop
 	while(choice>0 && choice<4){
 		//Get user choice
-		printf("\nEnter 1 to insert a new Node\nEnter 2 to delete an existing Node\nEnter 3 to traverse existing Nodes\n");
+		printf("\nEnter 1 to insert a new node\nEnter 2 to delete an existing node\nEnter 3 to traverse existing nodes\n");
 		printf("Press any other key to exit : ");
 		scanf("%d",&choice);
 		printf("\n");
