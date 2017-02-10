@@ -288,7 +288,7 @@ Status acquireNode(){
 	//If it is a valid type
 	else{
 		//Acquire a space for the node from the memory
-		createdNode = (Node *)malloc(sizeof(struct Node));
+		createdNode = (Node *)malloc(sizeof(Node));
 		//Check if the memory is full
 		if(createdNode==NULL)
 			return NO_MEMORY_AVAILABLE;
