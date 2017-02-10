@@ -227,21 +227,21 @@ Status traverse(){
 		return QUEUE_UNDERFLOW;
 	//Start traversal
 	while(aNode!=NULL){
-		printf("Node : %d\nValue : ",count++);
+		printf("\n\n");
+		printf("Node : %d\nType : ",count++);
 		//Check the type of the node
 		type = aNode->type;
 		//Print the value associated with the type
 		switch(type){
-			case INTEGER: printf("%d",aNode->value.ival);
+			case INTEGER: printf("Integer\nValue : %d",aNode->value.ival);
 				break;
-			case REAL: printf("%g",aNode->value.fval);
+			case REAL: printf("Real\nValue : %g",aNode->value.fval);
 				break;
-			case CHARACTER: printf("%c",aNode->value.cval);
+			case CHARACTER: printf("Character\nValue : %c",aNode->value.cval);
 				break;
 			//Type is none of the known!
 			default: return INTERNAL_ERROR;
 		}
-		printf("\n");
 		//Switch to next node
 		aNode = aNode->nextNode;
 	}
@@ -451,7 +451,7 @@ int main(){
 		scanf("%d",&limit);
 	}
 	//Add atleast one node before performing any operation
-	printf("Before we continue, add at least one Node.\n");
+	printf("\nBefore we continue, add at least one Node.\n");
 	//Acquire a new node from the user and check if it succeeds.
 	if(acquireNode()==OP_SUCCESS){
 		//If it does, add the node to the queue, and print the status
