@@ -328,11 +328,15 @@ Status addNode(Position pos, Node *aNode){
 	if(aNode==NULL)
 		return INTERNAL_ERROR;
 	//Check if the position is valid
-	if(pos==UNDEFINED)
+	if(pos==UNDEFINED){
+		free(aNode);
 		return INVALID_POSITION_SPECIFIED;
+	}
 	//Check if the queue is full
-	if(count==limit)
+	if(count==limit){
+		free(aNode);
 		return QUEUE_OVERFLOW;
+	}
 	//Check if the insertion is to be performed at the front
 	if(pos==FRONT){
 		//Check if at all any node is present in the queue
