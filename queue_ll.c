@@ -151,8 +151,10 @@ int limit = -1, count = 0;
 	
 	Arguments : 	1. status : The status to analyze
 	-----------	2. op : The operation which returned the status
+	Return value : 	1. The status to analyze for further use
+	--------------
 */
-void printstatus(Status status, OP_Type op){
+Status printstatus(Status status, OP_Type op){
 	printf("\n");
 	switch(op){
 		case CREATION: printf("Node creation ");
@@ -166,13 +168,13 @@ void printstatus(Status status, OP_Type op){
 	}
 	if(status==OP_SUCCESS){
 		printf("successful!\n");
-		return;
+		return status;
 	}
 	printf("failed!\nReason : ");
 	switch(status){
-		case WRONG_OPTION_CHOOSEN: printf("You've choosen a wrong option!\n");
+		case WRONG_OPTION_CHOOSEN: printf("You've choosen a wrong option!");
 			break;
-		case NO_MEMORY_AVAILABLE: printf("No free system memory available!\n");
+		case NO_MEMORY_AVAILABLE: printf("No free system memory available!");
 			break;
 		case QUEUE_OVERFLOW: printf("Queue overflow!");
 			break;
@@ -184,6 +186,7 @@ void printstatus(Status status, OP_Type op){
 			break;
 	}
 	printf("\n");
+	return status;
 }
 
 /*
@@ -225,9 +228,10 @@ Status traverse(){
 	//Check if any item is at all present in the queue
 	if(aNode==NULL)
 		return QUEUE_UNDERFLOW;
+	printf("\b\b");
 	//Start traversal
 	while(aNode!=NULL){
-		printf("\n");
+		printf("\n\n");
 		printf("Node : %d\nType : ",count++);
 		//Check the type of the node
 		type = aNode->type;
@@ -273,7 +277,7 @@ Status acquireNode(){
 	//Reset the pointer
 	createdNode = NULL;
 	//Ask user for the type of the node
-	printf("Enter the type of Node you want to add : \n");
+	printf("\nEnter the type of Node you want to add : \n");
 	printf("1. Integer\n2. Real\n3. Character : ");
 	scanf("%d",&type);
 	//check if it is at all a valid type
@@ -452,7 +456,7 @@ int main(){
 	}
 	else{
 		//If the first node can't be created, exit from the program immediately
-		printf("Fatal error! Program will now terminate!");
+		printf("Fatal error! Program will now terminate!\n");
 	}
 	//The infinite choice-loop
 	while(choice>0 && choice<4){
@@ -460,12 +464,14 @@ int main(){
 		printf("\nEnter 1 to insert a new node\nEnter 2 to delete an existing node\nEnter 3 to traverse existing nodes\n");
 		printf("Press any other key to exit : ");
 		scanf("%d",&choice);
-		printf("\n");
 		switch(choice){
 			case 1: //Acquire a new node, and print the status
-				printstatus(acquireNode(), CREATION);
-				//Ask the position of insertion, insert it in the queue and print the status
-				printstatus(addNode(getpos(INSERTION), createdNode), INSERTION); break;
+				if(printstatus(acquireNode(), CREATION)==OP_SUCCESS){
+					//If creation succeeds, ask user the position of insertion, 
+					//insert it in the queue and print the status
+					printstatus(addNode(getpos(INSERTION), createdNode), INSERTION);
+				} 
+				break;
 			case 2: //Ask point of deletion, delete the node, and print the status
 				printstatus(deleteNode(getpos(DELETION)), DELETION); break;
 			case 3: //Traverse the queue, and print the status
