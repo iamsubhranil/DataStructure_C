@@ -227,7 +227,7 @@ Status traverse(){
 		return QUEUE_UNDERFLOW;
 	//Start traversal
 	while(aNode!=NULL){
-		printf("\n\n");
+		printf("\n");
 		printf("Node : %d\nType : ",count++);
 		//Check the type of the node
 		type = aNode->type;
@@ -245,6 +245,7 @@ Status traverse(){
 		//Switch to next node
 		aNode = aNode->nextNode;
 	}
+	printf("\n");
 	return OP_SUCCESS;
 }
 /*
