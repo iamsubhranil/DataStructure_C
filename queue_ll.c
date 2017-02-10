@@ -313,7 +313,7 @@ Status acquireNode(){
 }
 
 /*
-	Insert a Node in the queue. Here pos signifies the position to insert, typically front or rear, if present.
+	Method to insert a node in the queue.
 	
 	Arguments :	1. pos : The position in which the new node is to be inserted
 	-----------	2. aNode : The node to be inserted
@@ -323,7 +323,6 @@ Status acquireNode(){
 			3. OP_SUCCESS
 */
 Status addNode(Position pos, Node *aNode){
-	Node *temp;
 	//Check if the node given to insert is NULL
 	if(aNode==NULL)
 		return INTERNAL_ERROR;
@@ -337,38 +336,24 @@ Status addNode(Position pos, Node *aNode){
 		free(aNode);
 		return QUEUE_OVERFLOW;
 	}
+	//If front is NULL, then it is the first node to be inserted
+	if(front==NULL){
+		front = rear = aNode;
+	}
 	//Check if the insertion is to be performed at the front
-	if(pos==FRONT){
-		//Check if at all any node is present in the queue
-		if(front==NULL){
-			//If not, set front and rear to this node
-			front=aNode;
-			rear=aNode;
-		}
-		//If any node is present in the queue
-		else{
-			//Insert front at the end of this node
-			aNode->nextNode = front;
-			//Set front to the present node
-			front = aNode;
-		}
+	else if(pos==FRONT){
+		//Insert front at the end of this node
+		aNode->nextNode = front;
+		//Set front to the present node
+		front = aNode;
 	}
 	//Check if the insertion is to be performed at the rear
 	else if(pos==REAR){
-		//Check if at all any node is present in the queue
-		if(rear==NULL){
-			//If not, set front and rear to this node
-			front = aNode;
-			rear=aNode;
-		}
-		//If any node is present in the queue
-		else{
-			//Insert the node at the end to the queue
-			rear->nextNode = aNode;
-			aNode->nextNode = NULL;
-			//Set rear to this node
-			rear = aNode;
-		}
+		//Insert the node at the end to the queue
+		rear->nextNode = aNode;
+		aNode->nextNode = NULL;
+		//Set rear to this node
+		rear = aNode;
 	}
 	count++;
 	return OP_SUCCESS;
