@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+
 /*
 	These are the basic status codes used throughout the program,
 	to indicate the status of a particular operation.
@@ -50,7 +51,7 @@ typedef enum Status {
 			-------------- by traverse().
 */
 
-typedef enum OP_Type{
+typedef enum OP_Type {
 	CREATION,
 	INSERTION,
 	DELETION,
@@ -68,11 +69,28 @@ typedef enum OP_Type{
 			--------------	typically causing return of INVALID_POSITION_SPECIFIED.
 */
 
-typedef enum Position{
+typedef enum Position {
 	FRONT,
 	REAR,
 	UNDEFINED
 } Position;
+
+/*
+	These are the possible types of data values in a node.
+	
+	Values : 	1. INTEGER : Signifies the node contains integer data
+	--------	------------
+			2. REAL : Signifies the node contains real data
+			---------
+			3. CHARACTER : Signifies the node contains character data
+			--------------
+*/
+
+typedef enum Type {
+	INTEGER,
+	REAL,
+	CHARACTER
+} Type;
 
 /*
 	These are the types of data that can be stored inside the queue,
@@ -105,7 +123,7 @@ typedef union Data {
 */
 
 typedef struct Node {
-	int type;
+	Type type;
 	Data value;
 	struct Node *nextNode;
 } Node;
@@ -200,7 +218,8 @@ Position getpos(OP_Type op){
 			3. OP_SUCCESS
 */
 Status traverse(){
-	int count = 1, type;
+	int count = 1;
+	Type type;
 	//Point to the front of the queue
 	Node *aNode = front;
 	//Check if any item is at all present in the queue
@@ -213,12 +232,13 @@ Status traverse(){
 		type = aNode->type;
 		//Print the value associated with the type
 		switch(type){
-			case 1: printf("%d",aNode->value.ival);
+			case INTEGER: printf("%d",aNode->value.ival);
 				break;
-			case 2: printf("%g",aNode->value.fval);
+			case REAL: printf("%g",aNode->value.fval);
 				break;
-			case 3: printf("%c",aNode->value.cval);
+			case CHARACTER: printf("%c",aNode->value.cval);
 				break;
+			//Type is none of the known!
 			default: return INTERNAL_ERROR;
 		}
 		printf("\n");
@@ -272,7 +292,7 @@ Status acquireNode(){
 		if(createdNode==NULL)
 			return NO_MEMORY_AVAILABLE;
 		//Set the type of the node based on previous user selection
-		createdNode->type = type;
+		createdNode->type = type==1?INTEGER:type==2?REAL:CHARACTER;
 		//Take input of the value for that particular type by the user
 		if(type==1)
 		{
@@ -304,7 +324,6 @@ Status acquireNode(){
 */
 Status addNode(Position pos, Node *aNode){
 	Node *temp;
-	int type;
 	//Check if the node given to insert is NULL
 	if(aNode==NULL)
 		return INTERNAL_ERROR;
