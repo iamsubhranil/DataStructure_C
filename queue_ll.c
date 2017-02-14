@@ -113,9 +113,8 @@ typedef union Data {
 /*
 	This is the basic structure of each node in the queue.
 	
-	Members : 	1. type : The type of data stored inside the queue.
-	---------	--------- 1 indicates an integer value, 2 indicates
-				  a real value, a 3 indicates a character value.
+	Members : 	1. type : The type of data stored inside the queue,
+	---------	--------- as defined in enum Type.
 			2. value : The actual data of the node
 			----------
 			3. nextNode : The pointer to the next node in the queue.
