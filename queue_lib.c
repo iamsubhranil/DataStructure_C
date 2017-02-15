@@ -11,7 +11,7 @@
 	Return value : 	1. The status to analyze for further use
 	--------------
 */
-Status printstatus(Status status, OP_Type op){
+Status printStatus(Status status, OP_Type op){
 	printf("\n");
 	switch(op){
 		case QUEUE_CREATION: printf("Queue creation ");
@@ -59,7 +59,7 @@ Status printstatus(Status status, OP_Type op){
 	Return value :	Any one of possible position values, based on
 	--------------	the selection of the user
 */
-Position getpos(OP_Type op, Queue *queue){
+Position getPos(OP_Type op, Queue *queue){
 	int choice;
 	//If the queue is a linear one, don't bother
 	if(queue->type==LINEAR){
@@ -113,6 +113,7 @@ Status printNode(Node *aNode, int count){
 			 return INTERNAL_ERROR;
 	}
 	printf("\n");
+	return OP_SUCCESS;
 }
 
 /*
