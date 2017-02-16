@@ -13,6 +13,8 @@
 */
 Status printStatus(Status status, OP_Type op){
 	printf("\n");
+	if(status!=OP_SUCCESS)
+		printf("Error : ");
 	switch(op){
 		case QUEUE_CREATION: printf("Queue creation ");
 			break;
@@ -72,16 +74,15 @@ Position getPos(OP_Type op, Queue *queue){
 	}
 	//This queue is deque, and can have both
 	//ends of operation
-	printf("\nChoose the point of ");
 	switch(op){
-		case INSERTION: printf("insertion\n");
+		case INSERTION: printf("\nInsert at\n");
 			break;
-		case DELETION: printf("deletion\n");
+		case DELETION: printf("\nDelete from\n");
 			break;
-		case TRAVERSAL: printf("traversal\n");
+		case TRAVERSAL: printf("\nTraverse from\n");
 			break;
 	}
-	printf("Press 1 for front\nPress 2 for rear : ");
+	printf("1. Front\n2. Rear : ");
 	scanf("%d",&choice);
 	return choice==1?FRONT:choice==2?REAR:UNDEFINED;
 }
@@ -163,7 +164,7 @@ Status display(Queue *queue, Position pos){
 */
 int retry(){
 	int choice;
-	printf("Wrong option choosen!\nPress 1 to retry\nPress any other key to exit : ");
+	printf("Wrong option choosen!\n1. Retry\n2. Exit : ");
 	scanf("%d",&choice);
 	return choice==1?1:0;
 }
