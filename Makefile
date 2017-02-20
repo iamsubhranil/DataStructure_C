@@ -14,10 +14,6 @@ CFLAGS = -g -O2 -w -I$(LIBHEADERLOC) -L$(LIBLOCATION)
 
 export LD_LIBRARY_PATH=$(LIBLOCATION):$LD_LIBRARY_PATH
 
-configure :
-	autoconf
-	./configure
-
 all : clean reconfigure buildlib $(TARGET)
 	@echo XXX
 	@echo 100
@@ -29,6 +25,9 @@ reconfigure : ./loadconfig.sh
 
 debugbuild : CFLAGS+= -g
 debugbuild : all
+
+menuconfig : ./queue_menuconfig.sh
+	@./queue_menuconfig.sh
 
 buildtarget : cleantarget $(TARGET)
 
