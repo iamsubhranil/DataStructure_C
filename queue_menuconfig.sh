@@ -25,7 +25,13 @@ if [ "$?" = "0" ]
 				4)CONFIGS=$CONFIGS'\n'$DE_Q'\n'$PR_Q;;
 			esac
 			dialog --msgbox "You've selected option $SEL.\nlibqueue will now be recompiled with the following configuration :\n$CONFIGS" 11 50
-			echo $CONFIGS > defconfig
+			if [ "$?" = "0" ]
+			then
+				printf $CONFIGS > defconfig
+				exec 2>&1
+				make all | dialog --title "Compiling" --gauge "Please wait..." 10 70 0
+			fi
+
 		else
 			dialog --msgbox "You've canceled libqueue recompilation!" 10 50
 		fi
@@ -36,4 +42,3 @@ if [ "$?" = "0" ]
 else
 	dialog --msgbox "You've canceled libqueue recompilation!" 10 50
 fi
-clear
