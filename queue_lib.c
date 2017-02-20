@@ -1,6 +1,7 @@
 #include "queue_interface.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include "config.h"
 
 /*
 	Prints the status message for a particular status code. This is done
@@ -72,6 +73,7 @@ Position getPos(OP_Type op, Queue *queue){
 		else if(op==TRAVERSAL)
 			return FRONT;
 	}
+#ifdef CONFIG_DEQUE
 	//This queue is deque, and can have both
 	//ends of operation
 	switch(op){
@@ -85,7 +87,20 @@ Position getPos(OP_Type op, Queue *queue){
 	printf("1. Front\n2. Rear : ");
 	scanf("%d",&choice);
 	return choice==1?FRONT:choice==2?REAR:UNDEFINED;
+#endif
 }
+
+#ifdef CONFIG_PRIORITY_QUEUE
+void printPriority(Priority p){
+	switch(p){
+		case HIGH: printf("Priority : High\n");
+			   break;
+		case MED: printf("Priority : Medium\n");
+			  break;
+		case LOW: printf("Priority : Low\n");
+	}
+}
+#endif
 
 /*
 	Prints the value of a node.
@@ -100,7 +115,11 @@ Position getPos(OP_Type op, Queue *queue){
 Status printNode(Node *aNode, int count){
 	//Check the type of the node
 	Type type = aNode->type;
-	printf("\n\nNode : %d\nNode type : ",count);
+	printf("\n\nNode : %d",count);
+#ifdef CONFIG_QUEUE_PRIORITY
+	printPriority(aNode->priority);
+#endif
+	printf("\nNode type : ");
 	//Print the value associated with the type
 	switch(type){
 		case INTEGER: printf("Integer\nValue : %d",aNode->value.ival);
@@ -140,17 +159,28 @@ Status traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNo
 	if(queue->count==0)
 		return QUEUE_UNDERFLOW;
 	//Check the position of traversal
+#ifdef CONFIG_DEQUE
 	if(pos==REAR){
 		aNode = queue->rear;
 		loccount = queue->count;
 	}
+#endif
 	while(aNode!=NULL){
 		if(performOperation!=NULL){
-			printStatus = performOperation(aNode, pos==REAR?loccount--:loccount++);
+			printStatus = performOperation(aNode, loccount);
 			if(printStatus!=OP_SUCCESS)
 				return printStatus;
 		}
-		aNode = pos==FRONT?aNode->nextNode:aNode->prevNode;
+		if(pos==FRONT){
+			loccount++;
+			aNode = aNode->nextNode;
+		}
+#ifdef CONFIG_DEQUE
+		else if(pos==REAR){
+			loccount--;
+			aNode=aNode->prevNode;
+		}
+#endif
 	}
 	return OP_SUCCESS;
 }
@@ -192,6 +222,15 @@ Status initNode(Node **aNode, Type type, Data value){
 
 }
 
+#ifdef CONFIG_PRIORITY_QUEUE
+Status initPriorityNode(Node **aNode, Type type, Priority priority, Data value){
+	Status stat = initNode(aNode, type, value);
+	if(stat==OP_SUCCESS)
+		(*aNode)->priority = priority;
+	return stat;
+}
+#endif
+
 /*
 	Inserts a node in the queue. This method does not denies to perform the
 	insertion on the wrong end of a queue, which defies the queue integrity.
@@ -224,6 +263,7 @@ Status addNode(Position pos, Node *aNode, Queue *queue){
 	if(queue->count==0){
 		queue->front = queue->rear = aNode;
 	}
+#ifdef CONFIG_DEQUE
 	//Check if the insertion is to be performed at the front.
 	//Only advisable is the queue is a deque, otherwise
 	//prevNode links will still be there.
@@ -237,14 +277,17 @@ Status addNode(Position pos, Node *aNode, Queue *queue){
 		//Set front to the this node
 		queue->front = aNode;
 	}
+#endif
 	//Check if the insertion is to be performed at the rear
 	else{
 		//Insert the node at the end to the queue
 		queue->rear->nextNode = aNode;
+#ifdef CONFIG_DEQUE
 		//If the queue is a deque, link the prevNode
 		if(queue->type==DEQUE){
 			aNode->prevNode = queue->rear;
 		}
+#endif
 		//Set the nextNode to NULL
 		aNode->nextNode = NULL;
 		//Set rear to this node
@@ -292,11 +335,14 @@ Status deleteNode(Position pos, Queue *queue){
 	else if(pos==FRONT){
 		//Set front to the second node
 		queue->front = queue->front->nextNode;
+#ifdef CONFIG_DEQUE
 		if(queue->type==DEQUE)
 			queue->front->prevNode = NULL;
+#endif
 		//Free front
 		free(del);
 	}
+#ifdef CONFIG_DEQUE
 	//Deletion is to performed at the rear end
 	//Only happenning if the queue is deque
 	else{
@@ -320,6 +366,7 @@ Status deleteNode(Position pos, Queue *queue){
 		//Break the link
 		del->nextNode = NULL;
 	}
+#endif
 	//Decrease the counter
 	queue->count--;
 	return OP_SUCCESS;

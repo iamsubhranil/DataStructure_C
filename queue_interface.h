@@ -1,5 +1,7 @@
 #ifndef _QUEUE_H
 #define _QUEUE_H
+//Include custom configuration file
+#include"config.h"
 
 /*
 	A basic enum to compensate no boolean identifier
@@ -14,6 +16,14 @@ typedef enum Boolean {
 	FALSE,
 	TRUE
 } Boolean;
+
+#ifdef CONFIG_PRIORITY_QUEUE
+typedef enum Priority {
+	HIGH,
+	MED,
+	LOW
+} Priority;
+#endif
 
 /*
 	These are the basic status codes used throughout the program,
@@ -142,13 +152,22 @@ typedef struct Node {
 	Type type;
 	Data value;
 	struct Node *nextNode;
+#ifdef CONFIG_DEQUE
 	struct Node *prevNode;
+#endif
+#ifdef CONFIG_PRIORITY_QUEUE
+	Priority priority;
+#endif
 } Node;
 
 typedef enum QueueType {
-	LINEAR,
-	DEQUE,
-	PRIORITY
+	LINEAR
+#ifdef CONFIG_DEQUE
+	,DEQUE
+#endif
+#ifdef CONFIG_PRIORITY_QUEUE
+	,PRIORITY
+#endif
 } QueueType;
 
 /*
@@ -188,5 +207,8 @@ extern Status initNode(Node **aNode, Type type, Data value);
 extern Status addNode(Position pos, Node *aNode, Queue *queue);
 extern Status deleteNode(Position pos, Queue *queue);
 extern Status initQueue(Queue **queue, QueueType type, int limit);
-
+#ifdef CONFIG_PRIORITY_QUEUE
+//extern Status addPriorityNode(Node *aNode, Queue *queue);
+//extern Status deletePriorityNode(Queue *queue);
+#endif
 #endif

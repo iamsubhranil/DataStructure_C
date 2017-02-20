@@ -1,6 +1,6 @@
 #include<stdio.h>
-#include"queue_interface.h"
-
+#include "queue_interface.h"
+#include "config.h"
 
 /*
 	Main wrapper to the program. User will see only this menu,
@@ -8,13 +8,15 @@
 */
 Status createQueue(Queue **queue){
 	int choice;
-	QueueType type;
+	QueueType type = LINEAR;
 	int limit = -1;
+#ifdef CONFIG_DEQUE
 	printf("What type of queue do you want?\n1. Linear queue\n2. Deque : ");
 	scanf("%d",&choice);
 	if(choice<1 || choice>2)
 		return WRONG_OPTION_CHOOSEN;
 	type = choice==1?LINEAR:DEQUE;
+#endif
 	printf("Do you want the queue to be size restricted?\n1. Yes\n2. No : ");
 	scanf("%d",&choice);
 	if(choice<1 || choice>2)
