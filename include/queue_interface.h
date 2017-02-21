@@ -19,9 +19,9 @@ typedef enum Boolean {
 
 #ifdef CONFIG_PRIORITY_QUEUE
 typedef enum Priority {
-	HIGH,
+	LOW,
 	MED,
-	LOW
+	HIGH
 } Priority;
 #endif
 
@@ -58,6 +58,9 @@ typedef enum Status {
 	INTERNAL_ERROR,
 	INVALID_POSITION_SPECIFIED,
 	OP_SUCCESS
+#ifdef CONFIG_PRIORITY_QUEUE
+	,INVALID_PRIORITY
+#endif
 } Status;
 
 /*
@@ -208,7 +211,8 @@ extern Status addNode(Position pos, Node *aNode, Queue *queue);
 extern Status deleteNode(Position pos, Queue *queue);
 extern Status initQueue(Queue **queue, QueueType type, int limit);
 #ifdef CONFIG_PRIORITY_QUEUE
-//extern Status addPriorityNode(Node *aNode, Queue *queue);
-//extern Status deletePriorityNode(Queue *queue);
+extern Status addPriorityNode(Node *aNode,  Queue *queue);
+extern Status createPriorityNode(Node *aNode, Type type, Priority priority, Data value);
+extern Status deletePriorityNode(Priority priority, Queue *queue);
 #endif
 #endif

@@ -7,15 +7,26 @@
 	and all of the operations will return back to this method.
 */
 Status createQueue(Queue **queue){
-	int choice;
+	int choice, count;
 	QueueType type = LINEAR;
 	int limit = -1;
-#ifdef CONFIG_DEQUE
-	printf("What type of queue do you want?\n1. Linear queue\n2. Deque : ");
+#if defined(CONFIG_DEQUE) || defined(CONFIG_PRIORITY_QUEUE)
+	printf("What type of queue do you want?\n%d. Linear queue", ++count);
+#if defined(CONFIG_DEQUE)
+	printf("\n%d. Deque", ++count);
+#endif
+#if defined(CONFIG_PRIORITY_QUEUE)
+	printf("\n%d. Priority Queue", ++count);
+#endif
+	printf(" : ");
 	scanf("%d",&choice);
-	if(choice<1 || choice>2)
+	if(choice<1 || choice>count)
 		return WRONG_OPTION_CHOOSEN;
-	type = choice==1?LINEAR:DEQUE;
+#ifdef CONFIG_DEQUE
+	type = choice==1?LINEAR:choice==2?DEQUE:PRIORITY;
+#else
+	type = choice==1?LINEAR:PRIORITY;
+#endif
 #endif
 	printf("Do you want the queue to be size restricted?\n1. Yes\n2. No : ");
 	scanf("%d",&choice);
@@ -33,10 +44,13 @@ Status createQueue(Queue **queue){
 	return initQueue(queue, type, limit);
 }
 
-Status createNode(Node **node){
+Status createNode(Node **node, Queue *queue){
 	int choice;
 	Type type;
 	Data value;
+#ifdef CONFIG_PRIORITY_QUEUE
+	Priority priority;
+#endif
 	printf("\nWhat type of node do you want to create?\n1. Integer\n2. Real\n3. Character : ");
 	scanf("%d",&choice);
 	if(choice<1 || choice>3)
@@ -53,6 +67,16 @@ Status createNode(Node **node){
 			scanf(" %c",&value.cval);
 			break;
 	}
+#ifdef CONFIG_PRIORITY_QUEUE
+	if(queue->type==PRIORITY){
+		printf("Enter the priority of the node,\n1. High\n2. Medium\n3. Low : ");
+		scanf("%d", &choice);
+		if(choice<1 || choice>3)
+			return WRONG_OPTION_CHOOSEN;
+		priority = choice==1?HIGH:choice==2?MED:LOW;
+		return initPriorityNode(node, type, priority, value);
+	}
+#endif
 	return initNode(node, type, value);
 }
 
@@ -75,8 +99,14 @@ int main(){
 	//Add atleast one node before performing any operation
 	printf("\nBefore we continue, add at least one Node.\n");
 	//Acquire a new node from the user and check if it succeeds.
-	if(createNode(&node)==OP_SUCCESS){
+	if(createNode(&node, queue)==OP_SUCCESS){
 		//If it does, add the node to the queue, and print the status
+		
+#ifdef CONFIG_PRIORITY_QUEUE
+              if(queue->type==PRIORITY)
+                       printStatus(addPriorityNode(node, queue), INSERTION);
+               else
+#endif
 		printStatus(addNode(FRONT, node, queue), INSERTION);
 		choice = 1;
 	}
@@ -94,13 +124,19 @@ int main(){
 			case 1: //Acquire a new node, and print the status
 				printf("\nCreating a new node");
 				printf("\n===================\n");
-				if(printStatus(createNode(&node), NODE_CREATION)==OP_SUCCESS){
+				if(printStatus(createNode(&node, queue), NODE_CREATION)==OP_SUCCESS){
 					//If creation succeeds, ask user the position of insertion, 
 					//insert it in the queue and print the status
 					printf("\n===================\n");
 					printf("\nInserting the created node");
 					printf("\n==========================\n");
-					printStatus(addNode(getPos(INSERTION, queue), node, queue), INSERTION);
+#ifdef CONFIG_PRIORITY_QUEUE
+					if(queue->type==PRIORITY)
+						printStatus(addPriorityNode(node, queue), INSERTION);
+					else
+#endif
+						printStatus(addNode(getPos(INSERTION, queue), node, queue), INSERTION);
+				
 					printf("\n==========================\n");
 				}
 				else
@@ -109,7 +145,12 @@ int main(){
 			case 2: //Ask point of deletion, delete the node, and print the status
 				printf("\nDeleting an existing node");
 				printf("\n=========================\n");
-				printStatus(deleteNode(getPos(DELETION, queue), queue),DELETION);
+#ifdef CONFIG_PRIORITY_QUEUE
+                                if(queue->type==PRIORITY)
+                            	    printStatus(deletePriorityNode(HIGH, queue), DELETION);
+                                else
+#endif
+					printStatus(deleteNode(getPos(DELETION, queue), queue),DELETION);
 				printf("\n=========================\n");
 				break;
 			case 3: //Traverse the queue, and print the status
