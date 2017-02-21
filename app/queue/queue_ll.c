@@ -3,9 +3,9 @@
 #include <queue_config.h>
 
 /*
-	Main wrapper to the program. User will see only this menu,
-	and all of the operations will return back to this method.
-*/
+   Main wrapper to the program. User will see only this menu,
+   and all of the operations will return back to this method.
+ */
 Status createQueue(Queue **queue){
 	int choice, count;
 	QueueType type = LINEAR;
@@ -101,13 +101,13 @@ int main(){
 	//Acquire a new node from the user and check if it succeeds.
 	if(createNode(&node, queue)==OP_SUCCESS){
 		//If it does, add the node to the queue, and print the status
-		
+
 #ifdef CONFIG_PRIORITY_QUEUE
-              if(queue->type==PRIORITY)
-                       printStatus(addPriorityNode(node, queue), INSERTION);
-               else
+		if(queue->type==PRIORITY)
+			printStatus(addPriorityNode(node, queue), INSERTION);
+		else
 #endif
-		printStatus(addNode(FRONT, node, queue), INSERTION);
+			printStatus(addNode(FRONT, node, queue), INSERTION);
 		choice = 1;
 	}
 	else{
@@ -136,7 +136,7 @@ int main(){
 					else
 #endif
 						printStatus(addNode(getPos(INSERTION, queue), node, queue), INSERTION);
-				
+
 					printf("\n==========================\n");
 				}
 				else
@@ -146,9 +146,9 @@ int main(){
 				printf("\nDeleting an existing node");
 				printf("\n=========================\n");
 #ifdef CONFIG_PRIORITY_QUEUE
-                                if(queue->type==PRIORITY)
-                            	    printStatus(deletePriorityNode(HIGH, queue), DELETION);
-                                else
+				if(queue->type==PRIORITY)
+					printStatus(deletePriorityNode(HIGH, queue), DELETION);
+				else
 #endif
 					printStatus(deleteNode(getPos(DELETION, queue), queue),DELETION);
 				printf("\n=========================\n");
