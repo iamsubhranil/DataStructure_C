@@ -59,10 +59,15 @@ else
 
 	echo Checking configuration options..
 
-	for i in CONFIG_LINEAR_QUEUE CONFIG_DEQUE CONFIG_PRIORITY_QUEUE
-	do
-		checkdef $i $HEADER
-	done
+# Read the file line by line
+	while IFS='' read -r line || [[ -n "$line" ]]; do
+# Split each line in "="
+		IFS='=' read -ra PART <<< "$line"
+# Store the config name
+		ITEM=${PART[0]}
+# Check the value
+		checkdef $ITEM $HEADER
+	done < "$CONFIG"	
 
 	echo "#endif" >> $HEADER
 
