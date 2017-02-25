@@ -9,6 +9,7 @@
 
 Arguments : 	1. status : The status to analyze
 -----------	2. op : The operation which returned the status
+
 Return value : 	1. The status to analyze for further use
 --------------
  */
@@ -63,6 +64,7 @@ Status printStatus(Status status, OP_Type op){
 
 Arguments : 	1. op : The type of operation for which the position is required
 -----------	2. queue : The queue for which the position is to be determined
+
 Return value :	Any one of possible position values, based on
 --------------	the selection of the user
  */
@@ -113,12 +115,14 @@ void printPriority(Priority p){
 
 /*
    Prints the value of a node.
+
 Arguments :	1. aNode : the node to be printed
 -----------
+
 Return values : Anyone of the following statuses,
 ---------------	1. INTERNAL_ERROR : When the node type is undefined,
-which it should not be
-2. OP_SUCCESS
+		which it should not be
+		2. OP_SUCCESS
  */
 
 Status printNode(Node *aNode, int count){
@@ -154,10 +158,14 @@ Status printNode(Node *aNode, int count){
    it is recommended to pass the position from getpos(), which
    determines all implementation specific position values.
 
+   Arguments :		1. queue : The queue which is to be traversed
+   -----------		2. pos : The position from which the traversal is to be started
+			3. performOperation : The operation to be performed over each traversed node   
+
    Return value : Any one of the following statuses,
    --------------	1. QUEUE_UNDERFLOW
-   2. OP_SUCCESS
-   3. Statuses of printNode()
+   			2. OP_SUCCESS
+   			3. Statuses of printNode()
  */
 Status traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNode, int count)){
 	int loccount = 1;
@@ -216,7 +224,7 @@ Arguments :	1. createdNode : The node to be initialized
 
 Return value : This method returns one of the following statuses,
 --------------	1. NO_MEMORY_AVAILABLE
-2. OP_SUCCESS
+		2. OP_SUCCESS
  */
 
 Status initNode(Node **aNode, Type type, Data value){
@@ -306,11 +314,12 @@ Status deletePriorityNode(Priority priority, Queue *queue)
 
 Arguments :	1. pos : The position in which the new node is to be inserted
 -----------	2. aNode : The node to be inserted
-3. queue : The queue in which the node is to be inserted
+		3. queue : The queue in which the node is to be inserted
+
 Return value : One of the following statuses,
 --------------	1. INTERNAL_ERROR : When the value of aNode is NULL, which it shouldn't be
-2. INVALID_POSITION_SPECIFIED
-3. OP_SUCCESS
+		2. INVALID_POSITION_SPECIFIED
+		3. OP_SUCCESS
  */
 Status addNode(Position pos, Node *aNode, Queue *queue){
 	//Check if the node given to insert is NULL
@@ -374,10 +383,11 @@ Status addNode(Position pos, Node *aNode, Queue *queue){
 
 Arguments :	1. pos : The position from which the node is to be deleted
 ----------- 	2. queue : The queue on which deletion will be performed
+
 Return value :	One of the following statuses,
 --------------	1. INVALID_POSITION_SPECIFIED
-2. QUEUE_UNDERFLOW
-3. OP_SUCCESS
+		2. QUEUE_UNDERFLOW
+		3. OP_SUCCESS
  */
 
 Status deleteNode(Position pos, Queue *queue){
@@ -444,9 +454,10 @@ Status deleteNode(Position pos, Queue *queue){
    of size restriction.
 Arguments :	1. queue : The queue to be initialized
 -----------
+
 Return value : Any one of the following statuses,
 --------------	1. NO_MEMORY_AVAILABLE
-3. OP_SUCCESS
+		2. OP_SUCCESS
  */
 
 Status initQueue(Queue **queue, QueueType type, int limit){
