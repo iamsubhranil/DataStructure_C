@@ -45,28 +45,48 @@ Status createQueue(Queue **queue){
 }
 
 Status createNode(Node **node, Queue *queue){
-	int choice;
+	int choice, val = 1;
 	Type type;
 	Data value;
 #ifdef CONFIG_PRIORITY_QUEUE
 	Priority priority;
 #endif
-	printf("\nWhat type of node do you want to create?\n1. Integer\n2. Real\n3. Character : ");
+#if defined(CONFIG_NODE_REAL) || defined(CONFIG_NODE_CHAR)
+	printf("\nWhat type of node do you want to create?\n1. Integer");
+#ifdef CONFIG_NODE_REAL
+	printf("\n%d. Real : ",++val);
+#endif
+#ifdef CONFIG_NODE_CHAR
+	printf("\n%d. Character : ", ++val);
+#endif
 	scanf("%d",&choice);
-	if(choice<1 || choice>3)
+	if(choice<1 || choice>val)
 		return WRONG_OPTION_CHOOSEN;
-	type = choice==1?INTEGER:choice==2?REAL:CHARACTER;
-	switch(choice){
-		case 1: printf("Enter the integer value : ");
+	type = choice==1?INTEGER:
+#ifndef CONFIG_NODE_REAL
+		CHARACTER;
+#else
+		choice==2?REAL:CHARACTER;
+#endif
+	switch(type){
+		case INTEGER: printf("Enter the integer value : ");
 			scanf("%d",&value.ival);
 			break;
-		case 2: printf("Enter the real value : ");
+#ifdef CONFIG_NODE_REAL
+		case REAL: printf("Enter the real value : ");
 			scanf("%f",&value.fval);
 			break;
-		case 3: printf("Enter the character value : ");
+#endif
+#ifdef CONFIG_NODE_CHAR
+		case CHARACTER: printf("Enter the character value : ");
 			scanf(" %c",&value.cval);
 			break;
+#endif
 	}
+#else
+	printf("\nEnter the value of the node : ");
+	scanf("%d",&value.ival);
+#endif
 #ifdef CONFIG_PRIORITY_QUEUE
 	if(queue->type==PRIORITY){
 		printf("Enter the priority of the node,\n1. High\n2. Medium\n3. Low : ");
@@ -147,7 +167,7 @@ int main(){
 				printf("\n=========================\n");
 #ifdef CONFIG_PRIORITY_QUEUE
 				if(queue->type==PRIORITY)
-					printStatus(deletePriorityNode(HIGH, queue), DELETION);
+					printStatus(deletePriorityNode(queue), DELETION);
 				else
 #endif
 					printStatus(deleteNode(getPos(DELETION, queue), queue),DELETION);

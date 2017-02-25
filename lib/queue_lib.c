@@ -137,10 +137,14 @@ Status printNode(Node *aNode, int count){
 	switch(type){
 		case INTEGER: printf("Integer\nValue : %d",aNode->value.ival);
 			      break;
+#ifdef CONFIG_NODE_REAL
 		case REAL: printf("Real\nValue : %g",aNode->value.fval);
 			   break;
+#endif
+#ifdef CONFIG_NODE_CHAR
 		case CHARACTER: printf("Character\nValue : %c",aNode->value.cval);
 				break;
+#endif
 				//Type is none of the known!
 		default: printf("%d\nFATAL ERROR!\n",type);
 			 return INTERNAL_ERROR;
@@ -256,50 +260,40 @@ Status addPriorityNode(Node *aNode, Queue *queue){
 		return QUEUE_OVERFLOW;
 	}
 	if(temp==NULL){
-		printf("\nInserting first node..\n");
 		queue->front = queue->rear = aNode;
-		queue->count++;
-		return OP_SUCCESS;
 	}
-	while(temp->nextNode!=NULL && temp->priority>=aNode->priority){
-		temp = temp->nextNode;
+	else if(temp->priority<aNode->priority){
+		aNode->nextNode = temp;
+		queue->front = aNode;
 	}
-	if(temp->nextNode==NULL)
-		queue->rear = aNode;
+	else{
+		while(temp->nextNode!=NULL && temp->nextNode->priority>=aNode->priority){
+			temp = temp->nextNode;
+		}
+		if(temp->nextNode==NULL)
+			queue->rear = aNode;
 
-	aNode->nextNode = temp->nextNode;
-	temp->nextNode = aNode;
+		aNode->nextNode = temp->nextNode;
+		temp->nextNode = aNode;
+	}
 	queue->count++;
 
 	return OP_SUCCESS;
 }
 
-Status deletePriorityNode(Priority priority, Queue *queue)
+Status deletePriorityNode(Queue *queue)
 {
-	Node *temp = queue->front, *dummy;
+	Node *temp = queue->front;
 
 	if(queue->count==0)
 		return QUEUE_UNDERFLOW;
-	if(queue->front->priority==priority)
-	{
-		if(queue->front==queue->rear)
-			queue->front = queue->rear = NULL;
-		else
-			queue->front = queue->front->nextNode;
-		free(temp);
-		queue->count--;
-		return OP_SUCCESS;
-	}
+	
+	if(queue->front==queue->rear)
+		queue->front = queue->rear = NULL;
+	else
+		queue->front = queue->front->nextNode;
 
-	while(temp->nextNode!=NULL && temp->nextNode->priority<priority)
-		temp = temp->nextNode;
-	if(temp==NULL)
-		return INVALID_PRIORITY;
-	dummy = temp->nextNode;
-	if(dummy==queue->rear)
-		queue->rear = temp;
-	temp->nextNode = temp->nextNode->nextNode;
-	free(dummy);
+	free(temp);
 	queue->count--;
 	return OP_SUCCESS;
 }

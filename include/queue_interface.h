@@ -115,9 +115,13 @@ typedef enum Position {
 */
 
 typedef enum Type {
-	INTEGER,
-	REAL,
-	CHARACTER
+	INTEGER
+#ifdef CONFIG_NODE_REAL
+	,REAL
+#endif
+#ifdef CONFIG_NODE_CHAR
+	,CHARACTER
+#endif
 } Type;
 
 /*
@@ -133,9 +137,13 @@ typedef enum Type {
 */
 
 typedef union Data {
+#ifdef CONFIG_NODE_REAL
 	float fval;
+#endif
 	int ival;
+#ifdef CONFIG_NODE_CHAR
 	char cval;
+#endif
 } Data;
 
 /*
@@ -213,6 +221,6 @@ extern Status initQueue(Queue **queue, QueueType type, int limit);
 #ifdef CONFIG_PRIORITY_QUEUE
 extern Status addPriorityNode(Node *aNode,  Queue *queue);
 extern Status createPriorityNode(Node *aNode, Type type, Priority priority, Data value);
-extern Status deletePriorityNode(Priority priority, Queue *queue);
+extern Status deletePriorityNode(Queue *queue);
 #endif
 #endif
