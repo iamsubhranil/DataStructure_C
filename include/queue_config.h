@@ -4,8 +4,12 @@
 
 #define CONFIG_LINEAR_QUEUE 1
 
-#define CONFIG_DEQUE 1
+// CONFIG_DEQUE is not defined
 
 // CONFIG_PRIORITY_QUEUE is not defined
+
+#define CONFIG_NODE_REAL 1
+
+// CONFIG_NODE_CHAR is not defined
 
 #endif
