@@ -65,8 +65,10 @@ Status createNode(Node **node, Queue *queue){
 	type = choice==1?INTEGER:
 #ifndef CONFIG_NODE_REAL
 		CHARACTER;
-#else
+#elif defined(CONFIG_NODE_CHAR)
 		choice==2?REAL:CHARACTER;
+#else
+		REAL;
 #endif
 	switch(type){
 		case INTEGER: printf("Enter the integer value : ");

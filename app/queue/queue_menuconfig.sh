@@ -29,7 +29,7 @@ if [ "$?" = "0" ]
 			then
 				printf $CONFIGS > configs/queue_defconfig
 				exec 2>&1
-				make all | dialog --title "Compiling" --gauge "Please wait..." 10 70 0
+				make queue | dialog --title "Compiling" --gauge "Please wait..." 10 70 0
 			fi
 
 		else
