@@ -23,7 +23,12 @@ Status createQueue(Queue **queue){
 	if(choice<1 || choice>count)
 		return WRONG_OPTION_CHOOSEN;
 #ifdef CONFIG_DEQUE
-	type = choice==1?LINEAR:choice==2?DEQUE:PRIORITY;
+	type = choice==1?LINEAR:
+#ifdef CONFIG_PRIORITY_QUEUE
+		choice==2?DEQUE:PRIORITY;
+#else
+		DEQUE;
+#endif
 #else
 	type = choice==1?LINEAR:PRIORITY;
 #endif
