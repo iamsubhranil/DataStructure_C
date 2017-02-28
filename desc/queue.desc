@@ -1,0 +1,9 @@
+# This file is used by configuration generator to give the description of each option to the user
+# Typical format of a .desc file is
+# CONFIG=Description
+# Right now, no newline in description is permitted. Will change in the future.
+CONFIG_LINEAR_QUEUE=Do you want to add support for linear queue functions?
+CONFIG_DEQUE=Do you want to add support for deqeue functions?\n(Remember if this is selected, all functions of linear queue will automatically become available)
+CONFIG_PRIORITY_QUEUE=Do you want to add support for priority queue functions?
+CONFIG_NODE_REAL=Do you want to add support for nodes containing real(i.e. floating point) value?
+CONFIG_NODE_CHARACTER=Do you want to add support for nodes containing character value?

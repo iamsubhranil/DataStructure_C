@@ -20,6 +20,7 @@ then
 	echo Please specify an output file to continue!
 	usage
 else
+	echo Generating header from config..
 	HEADER=include/$2
 	if [ -e $HEADER ];
 	then
@@ -59,7 +60,7 @@ else
 		IFS='=' read -ra PART <<< $line
 
 		# Check if size of array is 2
-		if [ "${#PART[@]}" = "2" ];
+		if [[ ! $line = "#"* ]] && [[ "${#PART[@]}" = "2" ]];
 		then
 			# Store the config name
 			ITEM=${PART[0]}
@@ -72,8 +73,6 @@ else
 				echo "// $ITEM is not defined" >> $HEADER
 			fi
 			echo >> $HEADER
-		else
-			echo "Unparsabale line : "$line
 		fi
 	done < $CONFIG
 
