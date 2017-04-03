@@ -46,6 +46,10 @@ else
 	echo Checking configuration options..
 
 	# Read the file line by line
+	LASTNODEITEM=""
+	LASTQUEUEITEM=""
+	NODECOUNT=0
+	QUEUECOUNT=0
 	while IFS='' read -r line || [[ -n $line ]];
 	do
 		echo $line
@@ -63,6 +67,15 @@ else
 			if [ $VAL = "y" ];
 			then
 				echo "#define $ITEM" >> $HEADER
+				if [[ $ITEM = "CONFIG_NODE"* ]];
+				then
+					LASTNODEITEM=$ITEM
+					let "NODECOUNT++"
+				else
+					LASTQUEUEITEM=$ITEM
+					let "QUEUECOUNT++"
+				fi
+
 			else
 				echo "// $ITEM is not defined" >> $HEADER
 			fi
@@ -70,7 +83,54 @@ else
 		fi
 	done < $CONFIG
 
-echo "#endif" >> $HEADER
+	
+	if [ "$NODECOUNT" -eq "0" ];
+	then
+		echo "#define DEF_NODE_TYPE INTEGER" >> $HEADER
+		echo "#define DEF_NODE_FS \"%d\"" >> $HEADER
+		echo "#define DEF_NODE_BIT ivalue" >> $HEADER
+	elif [ "$NODECOUNT" -eq "1" ];
+	then
+		case $LASTNODEITEM in
+			*"INTEGER") echo "#define DEF_NODE_TYPE INTEGER" >> $HEADER
+				echo "#define DEF_NODE_FS \"%d\"" >> $HEADER
+				echo "#define DEF_NODE_BIT ival" >> $HEADER
+					;;
+			*"REAL") echo "#define DEF_NODE_TYPE REAL" >> $HEADER
+				echo "#define DEF_NODE_FS \"%f\"" >> $HEADER
+				echo "#define DEF_NODE_BIT fval" >> $HEADER
+					;;
+			*"CHARACTER") echo "#define DEF_NODE_TYPE CHARACTER" >> $HEADER
+				echo "#define DEF_NODE_FS \"%c\"" >> $HEADER
+				echo "#define DEF_NODE_BIT cval" >> $HEADER
+					;;
+		esac
+	else
+		echo "#define MULVALUE" >> $HEADER
+	fi
+
+	echo >> $HEADER
+
+	if [ "$QUEUECOUNT" -eq "0" ];
+	then
+		echo "#define DEF_QUEUE_TYPE LINEAR" >> $HEADER
+	elif [ "$QUEUECOUNT" -eq "1" ];
+	then
+		case $LASTQUEUEITEM in
+			*"LINEAR_QUEUE") echo "#define DEF_QUEUE_TYPE LINEAR" >> $HEADER
+					;;
+			*"DEQUE") echo "#define DEF_QUEUE_TYPE DEQUE" >> $HEADER
+					;;
+			*"PRIORITY_QUEUE") echo "#define DEF_QUEUE_TYPE PRIORITY" >> $HEADER
+					;;
+		esac
+	else
+		echo "#define MULQUEUE" >> $HEADER
+	fi
+	
+	echo >> $HEADER
+
+	echo "#endif" >> $HEADER
 
 	echo $2 created successfully..
 fi

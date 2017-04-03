@@ -7,31 +7,43 @@
    and all of the operations will return back to this method.
  */
 Status createQueue(Queue **queue){
-	int choice, count;
+	char choice, count;
 	QueueType type = LINEAR;
 	int limit = -1;
-#if defined(CONFIG_DEQUE) || defined(CONFIG_PRIORITY_QUEUE)
-	printf("What type of queue do you want?\n%d. Linear queue", ++count);
-#if defined(CONFIG_DEQUE)
-	printf("\n%d. Deque", ++count);
+#ifdef MULQUEUE
+	printf("\nWhat type of queue do you want?");
+#ifdef CONFIG_LINEAR_QUEUE
+	printf("\n(L)inear queue");
 #endif
-#if defined(CONFIG_PRIORITY_QUEUE)
-	printf("\n%d. Priority Queue", ++count);
+#ifdef CONFIG_DEQUE
+	printf("\n(D)eque");
+#endif
+#ifdef CONFIG_PRIORITY_QUEUE
+	printf("\n(P)riority queue");
 #endif
 	printf(" : ");
-	scanf("%d",&choice);
-	if(choice<1 || choice>count)
-		return WRONG_OPTION_CHOOSEN;
+	scanf(" %c", &choice);
+	switch(choice){
+#ifdef CONFIG_LINEAR_QUEUE
+		case 'L' : 
+		case 'l' : type = LINEAR;
+			   break;
+#endif
 #ifdef CONFIG_DEQUE
-	type = choice==1?LINEAR:
+		case 'D' : 
+		case 'd' : type = DEQUE;
+			   break;
+#endif
 #ifdef CONFIG_PRIORITY_QUEUE
-		choice==2?DEQUE:PRIORITY;
-#else
-		DEQUE;
+		case 'P' : 
+		case 'p' : type = PRIORITY;
+			   break;
 #endif
+		default : return WRONG_OPTION_CHOOSEN;
+			  break;
+	}
 #else
-	type = choice==1?LINEAR:PRIORITY;
-#endif
+	type = DEF_QUEUE_TYPE;
 #endif
 	printf("Do you want the queue to be size restricted?\n1. Yes\n2. No : ");
 	scanf("%d",&choice);
@@ -50,49 +62,54 @@ Status createQueue(Queue **queue){
 }
 
 Status createNode(Node **node, Queue *queue){
-	int choice, val = 1;
+	char choice, val = 1;
 	Type type;
 	Data value;
 #ifdef CONFIG_PRIORITY_QUEUE
 	Priority priority;
 #endif
-#if defined(CONFIG_NODE_REAL) || defined(CONFIG_NODE_CHAR)
-	printf("\nWhat type of node do you want to create?\n1. Integer");
+#ifdef MULVALUE
+	printf("\nWhat type of node do you want to create?");
+#ifdef CONFIG_NODE_INTEGER
+	printf("\n(I)nteger");
+#endif
 #ifdef CONFIG_NODE_REAL
-	printf("\n%d. Real : ",++val);
+	printf("\n(R)eal");
 #endif
 #ifdef CONFIG_NODE_CHAR
-	printf("\n%d. Character : ", ++val);
+	printf("\n(C)haracter");
 #endif
-	scanf("%d",&choice);
-	if(choice<1 || choice>val)
-		return WRONG_OPTION_CHOOSEN;
-	type = choice==1?INTEGER:
-#ifndef CONFIG_NODE_REAL
-		CHARACTER;
-#elif defined(CONFIG_NODE_CHAR)
-		choice==2?REAL:CHARACTER;
-#else
-		REAL;
-#endif
-	switch(type){
-		case INTEGER: printf("Enter the integer value : ");
+	printf(" : ");
+	scanf(" %c", &choice);
+	switch(choice){
+#ifdef CONFIG_NODE_INTEGER
+		case 'I' :
+		case 'i' : type = INTEGER;
+			printf("Enter the integer value : ");
 			scanf("%d",&value.ival);
 			break;
+#endif
 #ifdef CONFIG_NODE_REAL
-		case REAL: printf("Enter the real value : ");
+		case 'R' : 
+		case 'r' : type = REAL;
+			printf("Enter the real value : ");
 			scanf("%f",&value.fval);
 			break;
 #endif
 #ifdef CONFIG_NODE_CHAR
-		case CHARACTER: printf("Enter the character value : ");
+		case 'C' : 
+		case 'c' : type = CHARACTER;
+			printf("Enter the character value : ");
 			scanf(" %c",&value.cval);
 			break;
 #endif
+		default : return WRONG_OPTION_CHOOSEN;
+			  break;
 	}
 #else
 	printf("\nEnter the value of the node : ");
-	scanf("%d",&value.ival);
+	scanf(DEF_NODE_FS,&value.DEF_NODE_BIT);
+	type = DEF_NODE_TYPE;
 #endif
 #ifdef CONFIG_PRIORITY_QUEUE
 	if(queue->type==PRIORITY){
@@ -118,7 +135,7 @@ int main(){
 	printf("\nCreating the queue");
 	printf("\n==================\n");
 	if(printStatus(createQueue(&queue),QUEUE_CREATION)!=OP_SUCCESS){
-		printf("FATAL ERROR!\nTerminating program..");
+		printf("FATAL ERROR!\nQueue cannot be created!\nTerminating program..");
 		return 1;
 	}
 	printf("\n==================\n");
@@ -126,6 +143,7 @@ int main(){
 	//Add atleast one node before performing any operation
 	printf("\nBefore we continue, add at least one Node.\n");
 	//Acquire a new node from the user and check if it succeeds.
+	printStatus(createNode(&node, queue), NODE_CREATION);
 	if(createNode(&node, queue)==OP_SUCCESS){
 		//If it does, add the node to the queue, and print the status
 
@@ -139,7 +157,7 @@ int main(){
 	}
 	else{
 		//If the first node can't be created, exit from the program immediately
-		printf("Fatal error! Program will now terminate!\n");
+		printf("Fatal error!\nFirst Node can't be added!\nProgram will now terminate!\n");
 	}
 	//The infinite choice-loop
 	while(choice>0 && choice<4){
