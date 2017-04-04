@@ -119,7 +119,7 @@ typedef enum Type {
 #ifdef CONFIG_NODE_REAL
 	,REAL
 #endif
-#ifdef CONFIG_NODE_CHAR
+#ifdef CONFIG_NODE_CHARACTER
 	,CHARACTER
 #endif
 } Type;
@@ -141,7 +141,7 @@ typedef union Data {
 	float fval;
 #endif
 	int ival;
-#ifdef CONFIG_NODE_CHAR
+#ifdef CONFIG_NODE_CHARACTER
 	char cval;
 #endif
 } Data;
@@ -220,7 +220,7 @@ extern Status deleteNode(Position pos, Queue *queue);
 extern Status initQueue(Queue **queue, QueueType type, int limit);
 #ifdef CONFIG_PRIORITY_QUEUE
 extern Status addPriorityNode(Node *aNode,  Queue *queue);
-extern Status createPriorityNode(Node *aNode, Type type, Priority priority, Data value);
+extern Status initPriorityNode(Node **aNode, Type type, Priority priority, Data value);
 extern Status deletePriorityNode(Queue *queue);
 #endif
 #endif

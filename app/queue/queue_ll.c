@@ -7,7 +7,7 @@
    and all of the operations will return back to this method.
  */
 Status createQueue(Queue **queue){
-	char choice, count;
+	char choice;
 	QueueType type = LINEAR;
 	int limit = -1;
 #ifdef MULQUEUE
@@ -45,11 +45,12 @@ Status createQueue(Queue **queue){
 #else
 	type = DEF_QUEUE_TYPE;
 #endif
+	
 	printf("Do you want the queue to be size restricted?\n1. Yes\n2. No : ");
-	scanf("%d",&choice);
-	if(choice<1 || choice>2)
+	scanf(" %c",&choice);
+	if(choice!='1' && choice!='2')
 		return WRONG_OPTION_CHOOSEN;
-	if(choice==1){
+	if(choice=='1'){
 		printf("Enter the size of the queue : ");
 		scanf("%d",&limit);
 		if(limit<1)
@@ -62,7 +63,7 @@ Status createQueue(Queue **queue){
 }
 
 Status createNode(Node **node, Queue *queue){
-	char choice, val = 1;
+	char choice;
 	Type type;
 	Data value;
 #ifdef CONFIG_PRIORITY_QUEUE
@@ -76,7 +77,7 @@ Status createNode(Node **node, Queue *queue){
 #ifdef CONFIG_NODE_REAL
 	printf("\n(R)eal");
 #endif
-#ifdef CONFIG_NODE_CHAR
+#ifdef CONFIG_NODE_CHARACTER
 	printf("\n(C)haracter");
 #endif
 	printf(" : ");
@@ -96,7 +97,7 @@ Status createNode(Node **node, Queue *queue){
 			scanf("%f",&value.fval);
 			break;
 #endif
-#ifdef CONFIG_NODE_CHAR
+#ifdef CONFIG_NODE_CHARACTER
 		case 'C' : 
 		case 'c' : type = CHARACTER;
 			printf("Enter the character value : ");
@@ -113,11 +114,11 @@ Status createNode(Node **node, Queue *queue){
 #endif
 #ifdef CONFIG_PRIORITY_QUEUE
 	if(queue->type==PRIORITY){
-		printf("Enter the priority of the node,\n1. High\n2. Medium\n3. Low : ");
-		scanf("%d", &choice);
-		if(choice<1 || choice>3)
+		printf("Enter the priority of the node\n1. High\n2. Medium\n3. Low : ");
+		scanf(" %c", &choice);
+		if(choice<'1' || choice>'3')
 			return WRONG_OPTION_CHOOSEN;
-		priority = choice==1?HIGH:choice==2?MED:LOW;
+		priority = choice=='1'?HIGH:choice=='2'?MED:LOW;
 		return initPriorityNode(node, type, priority, value);
 	}
 #endif
@@ -143,7 +144,6 @@ int main(){
 	//Add atleast one node before performing any operation
 	printf("\nBefore we continue, add at least one Node.\n");
 	//Acquire a new node from the user and check if it succeeds.
-	printStatus(createNode(&node, queue), NODE_CREATION);
 	if(createNode(&node, queue)==OP_SUCCESS){
 		//If it does, add the node to the queue, and print the status
 

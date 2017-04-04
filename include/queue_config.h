@@ -8,15 +8,13 @@
 
 #define CONFIG_PRIORITY_QUEUE
 
-// CONFIG_NODE_INTEGER is not defined
+#define CONFIG_NODE_INTEGER
 
 #define CONFIG_NODE_REAL
 
 // CONFIG_NODE_CHARACTER is not defined
 
-#define DEF_NODE_TYPE REAL
-#define DEF_NODE_FS "%f"
-#define DEF_NODE_BIT fval
+#define MULVALUE
 
 #define DEF_QUEUE_TYPE PRIORITY
 

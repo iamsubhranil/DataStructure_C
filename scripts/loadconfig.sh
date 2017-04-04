@@ -101,7 +101,7 @@ else
 				echo "#define DEF_NODE_BIT fval" >> $HEADER
 					;;
 			*"CHARACTER") echo "#define DEF_NODE_TYPE CHARACTER" >> $HEADER
-				echo "#define DEF_NODE_FS \"%c\"" >> $HEADER
+				echo "#define DEF_NODE_FS \" %c\"" >> $HEADER
 				echo "#define DEF_NODE_BIT cval" >> $HEADER
 					;;
 		esac

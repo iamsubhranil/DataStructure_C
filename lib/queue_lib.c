@@ -69,7 +69,6 @@ Return value :	Any one of possible position values, based on
 --------------	the selection of the user
  */
 Position getPos(OP_Type op, Queue *queue){
-	int choice;
 	//If the queue is a linear one, don't bother
 	if(queue->type==LINEAR
 #ifdef CONFIG_PRIORITY_QUEUE
@@ -141,7 +140,7 @@ Status printNode(Node *aNode, int count){
 		case REAL: printf("Real\nValue : %g",aNode->value.fval);
 			   break;
 #endif
-#ifdef CONFIG_NODE_CHAR
+#ifdef CONFIG_NODE_CHARACTER
 		case CHARACTER: printf("Character\nValue : %c",aNode->value.cval);
 				break;
 #endif
@@ -173,7 +172,6 @@ Status printNode(Node *aNode, int count){
  */
 Status traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNode, int count)){
 	int loccount = 1;
-	Type type;
 	Status printStatus;
 	Node *aNode = queue->front;
 	//Check if there is at all any element in the queue
@@ -233,12 +231,12 @@ Return value : This method returns one of the following statuses,
 
 Status initNode(Node **aNode, Type type, Data value){
 	//Acquire a space for the node from the memory
-	*aNode = (Node *)malloc(sizeof(Node));
+	(*aNode) = (Node *)malloc(sizeof(Node));
 	//Check if the memory is full
 	if(*aNode==NULL)
 		return NO_MEMORY_AVAILABLE;
 	(*aNode)->type = type;
-	(*aNode)->value = value;	
+	(*aNode)->value = value;
 	return OP_SUCCESS;
 
 }
