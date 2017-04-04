@@ -69,6 +69,7 @@ Return value :	Any one of possible position values, based on
 --------------	the selection of the user
  */
 Position getPos(OP_Type op, Queue *queue){
+	int choice;
 	//If the queue is a linear one, don't bother
 	if(queue->type==LINEAR
 #ifdef CONFIG_PRIORITY_QUEUE
@@ -124,12 +125,13 @@ Return values : Anyone of the following statuses,
 		2. OP_SUCCESS
  */
 
-Status printNode(Node *aNode, int count){
+Status printNode(Queue *queue, Node *aNode, int count){
 	//Check the type of the node
 	Type type = aNode->type;
 	printf("\n\nNode : %d",count);
 #ifdef CONFIG_PRIORITY_QUEUE
-	printPriority(aNode->priority);
+	if(queue->type==PRIORITY)
+		printPriority(aNode->priority);
 #endif
 	printf("\nNode type : ");
 	//Print the value associated with the type
@@ -172,7 +174,7 @@ Status printNode(Node *aNode, int count){
    			2. OP_SUCCESS
    			3. Statuses of printNode()
  */
-Status traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNode, int count)){
+Status traverse(Queue *queue, Position pos, Status (*performOperation)(Queue *queue, Node *aNode, int count)){
 	int loccount = 1;
 	Status printStatus;
 	Node *aNode = queue->front;
@@ -188,7 +190,7 @@ Status traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNo
 #endif
 	while(aNode!=NULL){
 		if(performOperation!=NULL){
-			printStatus = performOperation(aNode, loccount);
+			printStatus = performOperation(queue, aNode, loccount);
 			if(printStatus!=OP_SUCCESS)
 				return printStatus;
 		}

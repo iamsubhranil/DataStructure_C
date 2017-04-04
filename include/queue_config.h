@@ -4,20 +4,18 @@
 
 #define CONFIG_LINEAR_QUEUE
 
-// CONFIG_DEQUE is not defined
+#define CONFIG_DEQUE
 
-// CONFIG_PRIORITY_QUEUE is not defined
+#define CONFIG_PRIORITY_QUEUE
 
 #define CONFIG_NODE_INTEGER
 
-// CONFIG_NODE_REAL is not defined
+#define CONFIG_NODE_REAL
 
-// CONFIG_NODE_CHARACTER is not defined
+#define CONFIG_NODE_CHARACTER
 
-#define DEF_NODE_TYPE INTEGER
-#define DEF_NODE_FS "%d"
-#define DEF_NODE_BIT ival
+#define MULVALUE
 
-#define DEF_QUEUE_TYPE LINEAR
+#define MULQUEUE
 
 #endif

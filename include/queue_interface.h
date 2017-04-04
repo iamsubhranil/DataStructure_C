@@ -212,8 +212,8 @@ typedef struct Queue {
 extern int retry();
 extern Position getPos(OP_Type op, Queue *queue);
 extern Status printStatus(Status status, OP_Type op);
-extern Status printNode(Node *aNode, int count);
-extern Status traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNode, int count));
+extern Status printNode(Queue *queue, Node *aNode, int count);
+extern Status traverse(Queue *queue, Position pos, Status (*performOperation)(Queue *queue, Node *aNode, int count));
 extern Status display(Queue *queue, Position pos);
 extern Status initNode(Node **aNode, Type type, Data value);
 extern Status addNode(Position pos, Node *aNode, Queue *queue);

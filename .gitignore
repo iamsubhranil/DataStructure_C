@@ -1,5 +1,6 @@
 app/queue/queue_ll.out
 configs/queue_testconfig
+configs/queue_defconfig
 include/queue_config.h.bak
 include/queue_testconfig.h
 include/queue_testconfig.h.bak
