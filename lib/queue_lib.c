@@ -134,8 +134,10 @@ Status printNode(Node *aNode, int count){
 	printf("\nNode type : ");
 	//Print the value associated with the type
 	switch(type){
+#ifdef CONFIG_NODE_INTEGER
 		case INTEGER: printf("Integer\nValue : %d",aNode->value.ival);
 			      break;
+#endif
 #ifdef CONFIG_NODE_REAL
 		case REAL: printf("Real\nValue : %g",aNode->value.fval);
 			   break;

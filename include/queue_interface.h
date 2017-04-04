@@ -208,6 +208,7 @@ typedef struct Queue {
 	int limit;
 } Queue;
 
+//Functions
 extern int retry();
 extern Position getPos(OP_Type op, Queue *queue);
 extern Status printStatus(Status status, OP_Type op);

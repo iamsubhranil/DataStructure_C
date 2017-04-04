@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <queue_interface.h>
-#include <queue_config.h>
 
 /*
    Main wrapper to the program. User will see only this menu,

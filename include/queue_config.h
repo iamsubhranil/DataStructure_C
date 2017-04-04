@@ -2,20 +2,22 @@
 #ifndef _QUEUE_CONFIG_H
 #define _QUEUE_CONFIG_H
 
-// CONFIG_LINEAR_QUEUE is not defined
+#define CONFIG_LINEAR_QUEUE
 
 // CONFIG_DEQUE is not defined
 
-#define CONFIG_PRIORITY_QUEUE
+// CONFIG_PRIORITY_QUEUE is not defined
 
 #define CONFIG_NODE_INTEGER
 
-#define CONFIG_NODE_REAL
+// CONFIG_NODE_REAL is not defined
 
 // CONFIG_NODE_CHARACTER is not defined
 
-#define MULVALUE
+#define DEF_NODE_TYPE INTEGER
+#define DEF_NODE_FS "%d"
+#define DEF_NODE_BIT ival
 
-#define DEF_QUEUE_TYPE PRIORITY
+#define DEF_QUEUE_TYPE LINEAR
 
 #endif
