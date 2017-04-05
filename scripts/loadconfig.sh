@@ -5,7 +5,7 @@ usage(){
 	echo Example : loadconfig.sh defconfig config.h
 }
 
-CONFIG=configs/$1
+CONFIG=$1
 
 if [ -z "$CONFIG" ];
 then
@@ -21,7 +21,7 @@ then
 	usage
 else
 	echo Generating header from config..
-	HEADER=include/$2
+	HEADER=$2
 
 	echo Defining header name..
 
