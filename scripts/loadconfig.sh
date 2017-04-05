@@ -29,7 +29,7 @@ else
 
 	EXT=""
 
-	while IFS='.' read -ra EXT;
+	while IFS='.|/' read -ra EXT;
 	do
       		for i in "${EXT[@]}"; do
           		NAME=$NAME"_"${i^^}

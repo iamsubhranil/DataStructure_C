@@ -15,6 +15,3 @@ cleanlib :
 	@$(RM) $(LIBLOCATION)/$(LIBFILENAME).o
 	@$(RM) $(LIBLOCATION)/lib$(LIBNAME).so
 
-reconfigure : scripts/loadconfig.sh
-	@bash scripts/loadconfig.sh queue_defconfig queue_config  .h
-

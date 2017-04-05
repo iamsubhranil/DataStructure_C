@@ -21,9 +21,13 @@ rebuild_queue : reconfigure_queue queue
 
 generalbuild : CFLAGS = -O3 -w -I$(LIBHEADERLOC) -L$(LIBLOCATION)
 generalbuild :
+	@echo Creating header from config file..
 	@bash scripts/loadconfig.sh configs/queue_defconfig include/queue_config.h
+	@echo Making library..
 	@make -f lib/Makefile
+	@echo Making app..
 	@make -f app/Makefile
+	@echo Creating shortcut..
 	@ln -sf $(APPLOCATION)/$(APPNAME).out ./$(APPNAME).out
 
 reconfigure_queue :
