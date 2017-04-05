@@ -95,14 +95,17 @@ else
 			*"INTEGER") echo "#define DEF_NODE_TYPE INTEGER" >> $HEADER
 				echo "#define DEF_NODE_FS \"%d\"" >> $HEADER
 				echo "#define DEF_NODE_BIT ival" >> $HEADER
+				echo "#define DEF_NODE_STRING \"integer\"" >> $HEADER
 					;;
 			*"REAL") echo "#define DEF_NODE_TYPE REAL" >> $HEADER
 				echo "#define DEF_NODE_FS \"%f\"" >> $HEADER
 				echo "#define DEF_NODE_BIT fval" >> $HEADER
+				echo "#DEFINE DEF_NODE_STRING \"float\"" >> $HEADER
 					;;
 			*"CHARACTER") echo "#define DEF_NODE_TYPE CHARACTER" >> $HEADER
 				echo "#define DEF_NODE_FS \" %c\"" >> $HEADER
 				echo "#define DEF_NODE_BIT cval" >> $HEADER
+				echo "#define DEF_NODE_STRING \"character\"" >> $HEADER
 					;;
 		esac
 	else
@@ -118,10 +121,13 @@ else
 	then
 		case $LASTQUEUEITEM in
 			*"LINEAR_QUEUE") echo "#define DEF_QUEUE_TYPE LINEAR" >> $HEADER
+				echo "#define DEF_QUEUE_STRING \"Linear Queue\"" >> $HEADER
 					;;
 			*"DEQUE") echo "#define DEF_QUEUE_TYPE DEQUE" >> $HEADER
+				echo "#define DEF_QUEUE_STRING \"Deque\"" >> $HEADER
 					;;
 			*"PRIORITY_QUEUE") echo "#define DEF_QUEUE_TYPE PRIORITY" >> $HEADER
+				echo "#define DEF_QUEUE_STRING \"Priority Queue\"" >> $HEADER
 					;;
 		esac
 	else

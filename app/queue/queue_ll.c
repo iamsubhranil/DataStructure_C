@@ -42,6 +42,7 @@ Status createQueue(Queue **queue){
 			  break;
 	}
 #else
+	printf("Queue type : %s\n", DEF_QUEUE_STRING);
 	type = DEF_QUEUE_TYPE;
 #endif
 	
@@ -107,7 +108,7 @@ Status createNode(Node **node, Queue *queue){
 			  break;
 	}
 #else
-	printf("\nEnter the value of the node : ");
+	printf("\nEnter the value of the %s node : ", DEF_NODE_STRING);
 	scanf(DEF_NODE_FS,&value.DEF_NODE_BIT);
 	type = DEF_NODE_TYPE;
 #endif

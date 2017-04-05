@@ -47,6 +47,8 @@ Status printStatus(Status status, OP_Type op){
 				     break;
 		case INVALID_POSITION_SPECIFIED: printf("You've specified an invalid position!");
 						 break;
+		case UNDEFINED_OPERATION: printf("Undefined operation!");
+					  break;
 #ifdef CONFIG_PRIORITY_QUEUE
 		case INVALID_PRIORITY: printf("The queue does not contain any element of that priority!");
 				       break;
@@ -317,7 +319,9 @@ Return value : One of the following statuses,
 		2. INVALID_POSITION_SPECIFIED
 		3. OP_SUCCESS
  */
+
 Status addNode(Position pos, Node *aNode, Queue *queue){
+#if defined(CONFIG_LINEAR_QUEUE) || defined(CONFIG_DEQUE)
 	//Check if the node given to insert is NULL
 	if(aNode==NULL)
 		return INTERNAL_ERROR;
@@ -368,8 +372,10 @@ Status addNode(Position pos, Node *aNode, Queue *queue){
 	//Increase the counter
 	queue->count++;
 	return OP_SUCCESS;
+#else
+	return UNDEFINED_OPERATION;
+#endif
 }
-
 /*
    Deletes a node from the queue.  However, this method does not denies
    to perform the operation on the wrong end of a particular queue,
@@ -387,6 +393,7 @@ Return value :	One of the following statuses,
  */
 
 Status deleteNode(Position pos, Queue *queue){
+#if defined(CONFIG_LINEAR_QUEUE) || defined(CONFIG_DEQUE)
 	Node *del;
 	//Check if the position is at all valid
 	if(pos==UNDEFINED)
@@ -443,6 +450,9 @@ Status deleteNode(Position pos, Queue *queue){
 	//Decrease the counter
 	queue->count--;
 	return OP_SUCCESS;
+#else
+	return UNDEFINED_OPERATION;
+#endif
 }
 
 /*
