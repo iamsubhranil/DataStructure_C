@@ -100,7 +100,7 @@ else
 			*"REAL") echo "#define DEF_NODE_TYPE REAL" >> $HEADER
 				echo "#define DEF_NODE_FS \"%f\"" >> $HEADER
 				echo "#define DEF_NODE_BIT fval" >> $HEADER
-				echo "#DEFINE DEF_NODE_STRING \"float\"" >> $HEADER
+				echo "#define DEF_NODE_STRING \"float\"" >> $HEADER
 					;;
 			*"CHARACTER") echo "#define DEF_NODE_TYPE CHARACTER" >> $HEADER
 				echo "#define DEF_NODE_FS \" %c\"" >> $HEADER
