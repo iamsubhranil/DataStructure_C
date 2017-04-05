@@ -63,13 +63,15 @@ Status createQueue(Queue **queue){
 }
 
 Status createNode(Node **node, Queue *queue){
-	char choice;
 	Type type;
 	Data value;
+	if(queue->limit==queue->count)
+		return QUEUE_OVERFLOW;
 #ifdef CONFIG_PRIORITY_QUEUE
 	Priority priority;
 #endif
 #ifdef MULVALUE
+	char choice;
 	printf("\nWhat type of node do you want to create?");
 #ifdef CONFIG_NODE_INTEGER
 	printf("\n(I)nteger");
@@ -142,7 +144,7 @@ int main(){
 	printf("\n==================\n");
 
 	//Add atleast one node before performing any operation
-	printf("\nBefore we continue, add at least one Node.\n");
+	printf("\nBefore we continue, add at least one node.\n");
 	//Acquire a new node from the user and check if it succeeds.
 	if(createNode(&node, queue)==OP_SUCCESS){
 		//If it does, add the node to the queue, and print the status
