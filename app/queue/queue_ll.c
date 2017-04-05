@@ -65,13 +65,13 @@ Status createQueue(Queue **queue){
 Status createNode(Node **node, Queue *queue){
 	Type type;
 	Data value;
+	char choice;
 	if(queue->limit==queue->count)
 		return QUEUE_OVERFLOW;
 #ifdef CONFIG_PRIORITY_QUEUE
 	Priority priority;
 #endif
 #ifdef MULVALUE
-	char choice;
 	printf("\nWhat type of node do you want to create?");
 #ifdef CONFIG_NODE_INTEGER
 	printf("\n(I)nteger");
