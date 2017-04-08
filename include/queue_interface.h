@@ -2,7 +2,7 @@
 #define _QUEUE_H
 //Include custom configuration file
 #include"queue_config.h"
-
+#include<status.h>
 /*
 	A basic enum to compensate no boolean identifier
 	functionality in C.
@@ -24,68 +24,6 @@ typedef enum Priority {
 	HIGH
 } Priority;
 #endif
-
-/*
-	These are the basic status codes used throughout the program,
-	to indicate the status of a particular operation.
-
-	Values : 	1. WRONG_OPTION_CHOOSEN : This code is returned by a method when the user
-	--------	------------------------- does not comply to the valid choices with the
-				  		  associated menu
-			2. NO_MEMORY_AVAILABLE : This code is returned by initNode(), when the
-			------------------------ node creation process fails because of insufficient
-				 		 system memory, i.e. malloc() returns NULL.
-			3. QUEUE_OVERFLOW : This code is returned when the user tries to extend the
-			------------------- queue beyond its predefined limit, if any.
-			4. QUEUE_UNDERFLOW : This code is returned when traversal or deletion is
-			-------------------- performed over an empty queue.
-			5. INTERNAL_ERROR : This code is returned to depict an undefined system
-			------------------- behaviour, which the program should not face in general
-			    		    condition.
-			6. INVALID_POSITION_SPECIFIED : This code is returned when the user does not
-			------------------------------- select any of the front and rear positions to
-							perform an opeartion. This is typically binded
-							with Position:UNDEFINED, and the choice of the
-							position is just converted into a suitable status.
-			7. OP_SUCCESS : This code declares the successful execution of a particular
-			---------------	operation.
-*/
-typedef enum Status {
-	WRONG_OPTION_CHOOSEN,
-	NO_MEMORY_AVAILABLE,
-	QUEUE_OVERFLOW,
-	QUEUE_UNDERFLOW,
-	INTERNAL_ERROR,
-	INVALID_POSITION_SPECIFIED,
-	OP_SUCCESS,
-	UNDEFINED_OPERATION
-#ifdef CONFIG_PRIORITY_QUEUE
-	,INVALID_PRIORITY
-#endif
-} Status;
-
-/*
-	These are the basic operations performed over the queue, declared here
-	to make more generalized methods, just by 'switch'ing the appropiate type
-	to print the appropiate messages.
-
-	Values :	1. CREATION : This indicates the operation of the creation of node,
-	--------	------------- typically by initNode().
-			2. INSERTION : This indicates the operation of inserting a node into
-			-------------- the queue, by addNode().
-			3. DELETION : This indicates the operation of deletion of a node from
-			------------- the queue, if any, by deleteNode().
-			4. TRAVERSAL : This indicates the operation of traversal of the queue,
-			-------------- by traverse().
-*/
-
-typedef enum OP_Type {
-	QUEUE_CREATION,
-	NODE_CREATION,
-	INSERTION,
-	DELETION,
-	TRAVERSAL
-} OP_Type;
 
 /*
 	These are the positions to perform operations over the queue.
@@ -212,7 +150,6 @@ typedef struct Queue {
 //Functions
 extern int retry();
 extern Position getPos(OP_Type op, Queue *queue);
-extern Status printStatus(Status status, OP_Type op);
 extern Status printNode(Queue *queue, Node *aNode, int count);
 extern Status traverse(Queue *queue, Position pos, Status (*performOperation)(Queue *queue, Node *aNode, int count));
 extern Status display(Queue *queue, Position pos);

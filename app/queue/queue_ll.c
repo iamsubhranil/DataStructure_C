@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <queue_interface.h>
-
 /*
    Main wrapper to the program. User will see only this menu,
    and all of the operations will return back to this method.
@@ -67,7 +66,7 @@ Status createNode(Node **node, Queue *queue){
 	Data value;
 	char choice;
 	if(queue->limit==queue->count)
-		return QUEUE_OVERFLOW;
+		return OVERFLOW;
 #ifdef CONFIG_PRIORITY_QUEUE
 	Priority priority;
 #endif
@@ -137,7 +136,7 @@ int main(){
 	//
 	printf("\nCreating the queue");
 	printf("\n==================\n");
-	if(printStatus(createQueue(&queue),QUEUE_CREATION)!=OP_SUCCESS){
+	if(printStatus(createQueue(&queue),STRUCTURE_CREATION)!=OP_SUCCESS){
 		printf("FATAL ERROR!\nQueue cannot be created!\nTerminating program..");
 		return 1;
 	}

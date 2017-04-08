@@ -10,7 +10,7 @@ buildtarget : cleantarget $(TARGET)
 
 $(TARGET) : $(APPLOCATION)/$(APPNAME).c
 	@echo Compiling target..
-	@$(CC) $(CFLAGS) $(APPLOCATION)/$(APPNAME).c -l$(LIBNAME) -o ./$(APPLOCATION)/$(APPNAME).out
+	@$(CC) $(CFLAGS) $(APPLOCATION)/$(APPNAME).c -l$(LIBNAME) $(GENERICLIB) -o ./$(APPLOCATION)/$(APPNAME).out
 
 clean: cleantarget
 
