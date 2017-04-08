@@ -2,7 +2,7 @@
 #define NODE_H
 
 #include<status.h>
-
+#define CONFIG_NODE_INTEGER
 /*
 	These are the types of data that can be stored inside a structure,
 	and each node can contain any one of them.
@@ -46,6 +46,15 @@ typedef enum Type {
 #endif
 } Type;
 
+// Priority of a node
+#ifdef CONFIG_PRIORITY_QUEUE
+typedef enum Priority {
+	LOW,
+	MED,
+	HIGH
+} Priority;
+#endif
+
 /*
 	This is the basic skeleton of each node in the structure.
 
@@ -72,4 +81,5 @@ typedef struct Node {
 } Node;
 
 extern Status initNode(Node **node, Type type, Data value);
+extern Status printNode(Node *aNode, int count);
 #endif

@@ -46,62 +46,6 @@ Position getPos(OP_Type op, Queue *queue){
 #endif
 }
 
-#ifdef CONFIG_PRIORITY_QUEUE
-void printPriority(Priority p){
-	printf("\n");
-	switch(p){
-		case HIGH: printf("Priority : High");
-			   break;
-		case MED: printf("Priority : Medium");
-			  break;
-		case LOW: printf("Priority : Low");
-	}
-}
-#endif
-
-/*
-   Prints the value of a node.
-
-Arguments :	1. aNode : the node to be printed
------------
-
-Return values : Anyone of the following statuses,
----------------	1. INTERNAL_ERROR : When the node type is undefined,
-		which it should not be
-		2. OP_SUCCESS
- */
-
-Status printNode(Queue *queue, Node *aNode, int count){
-	//Check the type of the node
-	Type type = aNode->type;
-	printf("\n\nNode : %d",count);
-#ifdef CONFIG_PRIORITY_QUEUE
-	if(queue->type==PRIORITY)
-		printPriority(aNode->priority);
-#endif
-	printf("\nNode type : ");
-	//Print the value associated with the type
-	switch(type){
-#ifdef CONFIG_NODE_INTEGER
-		case INTEGER: printf("Integer\nValue : %d",aNode->value.ival);
-			      break;
-#endif
-#ifdef CONFIG_NODE_REAL
-		case REAL: printf("Real\nValue : %g",aNode->value.fval);
-			   break;
-#endif
-#ifdef CONFIG_NODE_CHARACTER
-		case CHARACTER: printf("Character\nValue : %c",aNode->value.cval);
-				break;
-#endif
-				//Type is none of the known!
-		default: printf("%d\nFATAL ERROR!\n",type);
-			 return INTERNAL_ERROR;
-	}
-	printf("\n");
-	return OP_SUCCESS;
-}
-
 /*
    Traverses and displays the queue. This method acts as according to
    the position specified, i.e. if the position is FRONT, it'll traverse
@@ -120,7 +64,7 @@ Status printNode(Queue *queue, Node *aNode, int count){
    			2. OP_SUCCESS
    			3. Statuses of printNode()
  */
-Status traverse(Queue *queue, Position pos, Status (*performOperation)(Queue *queue, Node *aNode, int count)){
+Status traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNode, int count)){
 	int loccount = 1;
 	Status printStatus;
 	Node *aNode = queue->front;
@@ -136,7 +80,7 @@ Status traverse(Queue *queue, Position pos, Status (*performOperation)(Queue *qu
 #endif
 	while(aNode!=NULL){
 		if(performOperation!=NULL){
-			printStatus = performOperation(queue, aNode, loccount);
+			printStatus = performOperation(aNode, loccount);
 			if(printStatus!=OP_SUCCESS)
 				return printStatus;
 		}
@@ -182,7 +126,7 @@ Status addPriorityNode(Node *aNode, Queue *queue){
 		return INTERNAL_ERROR;
 	if(queue->count==queue->limit){
 		free(aNode);
-		return QUEUE_OVERFLOW;
+		return OVERFLOW;
 	}
 	if(temp==NULL){
 		queue->front = queue->rear = aNode;
@@ -211,7 +155,7 @@ Status deletePriorityNode(Queue *queue)
 	Node *temp = queue->front;
 
 	if(queue->count==0)
-		return QUEUE_UNDERFLOW;
+		return UNDERFLOW;
 	
 	if(queue->front==queue->rear)
 		queue->front = queue->rear = NULL;

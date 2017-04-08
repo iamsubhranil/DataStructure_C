@@ -18,14 +18,6 @@ typedef enum Boolean {
 	TRUE
 } Boolean;
 
-#ifdef CONFIG_PRIORITY_QUEUE
-typedef enum Priority {
-	LOW,
-	MED,
-	HIGH
-} Priority;
-#endif
-
 /*
 	These are the positions to perform operations over the queue.
 
@@ -83,8 +75,7 @@ typedef struct Queue {
 //Functions
 extern int retry();
 extern Position getPos(OP_Type op, Queue *queue);
-extern Status printNode(Queue *queue, Node *aNode, int count);
-extern Status traverse(Queue *queue, Position pos, Status (*performOperation)(Queue *queue, Node *aNode, int count));
+extern Status traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNode, int count));
 extern Status display(Queue *queue, Position pos);
 extern Status addNode(Position pos, Node *aNode, Queue *queue);
 extern Status deleteNode(Position pos, Queue *queue);
