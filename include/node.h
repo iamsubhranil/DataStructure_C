@@ -1,6 +1,8 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include<status.h>
+
 /*
 	These are the types of data that can be stored inside a structure,
 	and each node can contain any one of them.
@@ -69,4 +71,5 @@ typedef struct Node {
 #endif
 } Node;
 
+extern Status initNode(Node **node, Type type, Data value);
 #endif

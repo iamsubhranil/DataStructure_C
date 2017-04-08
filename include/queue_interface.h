@@ -86,7 +86,6 @@ extern Position getPos(OP_Type op, Queue *queue);
 extern Status printNode(Queue *queue, Node *aNode, int count);
 extern Status traverse(Queue *queue, Position pos, Status (*performOperation)(Queue *queue, Node *aNode, int count));
 extern Status display(Queue *queue, Position pos);
-extern Status initNode(Node **aNode, Type type, Data value);
 extern Status addNode(Position pos, Node *aNode, Queue *queue);
 extern Status deleteNode(Position pos, Queue *queue);
 extern Status initQueue(Queue **queue, QueueType type, int limit);
