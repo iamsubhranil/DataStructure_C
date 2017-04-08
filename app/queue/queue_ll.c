@@ -152,8 +152,13 @@ int main(){
 		if(queue->type==PRIORITY)
 			printStatus(addPriorityNode(node, queue), INSERTION);
 		else
+		{
+			node->priority = -1;
 #endif
 			printStatus(addNode(FRONT, node, queue), INSERTION);
+#ifdef CONFIG_PRIORITY_QUEUE
+		}
+#endif
 		choice = 1;
 	}
 	else{
