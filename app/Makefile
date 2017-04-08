@@ -1,18 +1,9 @@
-all : clean $(TARGET)
+all : cleantarget buildtarget
 	@echo Compilation complete!
-	@echo Run the following command before running the program :
-	@bash scripts/addenv.sh
 
-debugbuild : CFLAGS+= -g
-debugbuild : all
-
-buildtarget : cleantarget $(TARGET)
-
-$(TARGET) : $(APPLOCATION)/$(APPNAME).c
+buildtarget : $(APPLOCATION)/$(APPNAME).c
 	@echo Compiling target..
-	@$(CC) $(CFLAGS) $(APPLOCATION)/$(APPNAME).c -l$(LIBNAME) $(GENERICLIB) -o ./$(APPLOCATION)/$(APPNAME).out
-
-clean: cleantarget
+	@$(CC) $(CFLAGS) $(APPLOCATION)/$(APPNAME).c -l$(LIBNAME) $(GENERICLIB) -o $(APPLOCATION)/$(APPNAME).out
 
 cleantarget :
 	@echo Removing compiled target..
