@@ -88,7 +88,9 @@ else
 	then
 		echo "#define DEF_NODE_TYPE INTEGER" >> $HEADER
 		echo "#define DEF_NODE_FS \"%d\"" >> $HEADER
-		echo "#define DEF_NODE_BIT ivalue" >> $HEADER
+		echo "#define DEF_NODE_BIT ival" >> $HEADER
+		echo "#define DEF_NODE_STRING \"integer\"" >> $HEADER
+		echo "#define CONFIG_NODE_INTEGER" >> $HEADER
 	elif [ "$NODECOUNT" -eq "1" ];
 	then
 		case $LASTNODEITEM in
@@ -117,6 +119,8 @@ else
 	if [ "$QUEUECOUNT" -eq "0" ];
 	then
 		echo "#define DEF_QUEUE_TYPE LINEAR" >> $HEADER
+		echo "#define DEF_QUEUE_STRING \"Linear Queue\"" >> $HEADER
+		echo "#define CONFIG_LINEAR_QUEUE" >> $HEADER
 	elif [ "$QUEUECOUNT" -eq "1" ];
 	then
 		case $LASTQUEUEITEM in
