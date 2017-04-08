@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <queue_interface.h>
+#include <queue.h>
 /*
    Main wrapper to the program. User will see only this menu,
    and all of the operations will return back to this method.

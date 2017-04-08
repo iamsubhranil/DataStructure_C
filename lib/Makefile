@@ -1,5 +1,4 @@
-LIBFILENAME = $(TARGET)_lib
-LIBHEADERNAME = $(TARGET)_interface
+LIBFILENAME = lib$(TARGET)
 LIBNAME = $(TARGET)
 
 buildlib : cleanlib $(LIBLOCATION)/$(LIBFILENAME).c
