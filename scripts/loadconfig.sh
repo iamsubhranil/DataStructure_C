@@ -34,7 +34,7 @@ else
       		for i in "${EXT[@]}"; do
           		NAME=$NAME"_"${i^^}
       		done
- 	done <<< "$2"
+	done <<< $(basename $2)
 
 	echo Internal header name : $NAME..
 
