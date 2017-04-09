@@ -29,7 +29,7 @@ else
 
 	EXT=""
 
-	while IFS='.|/' read -ra EXT;
+	while IFS='.' read -ra EXT;
 	do
       		for i in "${EXT[@]}"; do
           		NAME=$NAME"_"${i^^}
@@ -47,9 +47,11 @@ else
 
 	# Read the file line by line
 	LASTNODEITEM=""
-	LASTQUEUEITEM=""
+	LASTITEM=""
 	NODECOUNT=0
-	QUEUECOUNT=0
+	COUNT=0
+	NODECONFIG=include/node_config.h
+	rm $NODECONFIG
 	while IFS='' read -r line || [[ -n $line ]];
 	do
 		echo $line
@@ -66,14 +68,23 @@ else
 			VAL=${PART[1]}
 			if [ $VAL = "y" ];
 			then
-				echo "#define $ITEM" >> $HEADER
 				if [[ $ITEM = "CONFIG_NODE"* ]];
 				then
-					LASTNODEITEM=$ITEM
-					let "NODECOUNT++"
+					if [ "$NODECOUNT" -eq "0" ];
+					then
+						echo "#ifndef NODE_CONFIG_H" > $NODECONFIG
+						echo -e "#define NODE_CONFIG_H\n" >> $NODECONFIG
+					fi
+					echo "#define $ITEM" >> $NODECONFIG
+					if [[ ! "$ITEM" = "CONFIG_NODE_PRIORITY" ]];
+					then
+						LASTNODEITEM=$ITEM
+						let "NODECOUNT++"
+					fi
 				else
-					LASTQUEUEITEM=$ITEM
-					let "QUEUECOUNT++"
+					echo "#define $ITEM" >> $HEADER
+					LASTITEM=$ITEM
+					let "COUNT++"
 				fi
 
 			else
@@ -83,62 +94,41 @@ else
 		fi
 	done < $CONFIG
 
-	
 	if [ "$NODECOUNT" -eq "0" ];
 	then
-		echo "#define DEF_NODE_TYPE INTEGER" >> $HEADER
-		echo "#define DEF_NODE_FS \"%d\"" >> $HEADER
-		echo "#define DEF_NODE_BIT ival" >> $HEADER
-		echo "#define DEF_NODE_STRING \"integer\"" >> $HEADER
-		echo "#define CONFIG_NODE_INTEGER" >> $HEADER
+		echo "#ifndef NODE_CONFIG_H" >> $NODECONFIG
+		echo -e "#define NODE_CONFIG_H\n" >> $NODECONFIG
+	fi
+	if [ "$NODECOUNT" -eq "0" ] || ([ "$NODECOUNT" -eq "1" ] && [ "$LASTNODEITEM" = *"INTEGER" ]);
+	then
+		echo "#define DEF_NODE_TYPE INTEGER" >> $NODECONFIG
+		echo "#define DEF_NODE_FS \"%d\"" >> $NODECONFIG
+		echo "#define DEF_NODE_BIT ival" >> $NODECONFIG
+		echo "#define DEF_NODE_STRING \"integer\"" >> $NODECONFIG
 	elif [ "$NODECOUNT" -eq "1" ];
 	then
 		case $LASTNODEITEM in
-			*"INTEGER") echo "#define DEF_NODE_TYPE INTEGER" >> $HEADER
-				echo "#define DEF_NODE_FS \"%d\"" >> $HEADER
-				echo "#define DEF_NODE_BIT ival" >> $HEADER
-				echo "#define DEF_NODE_STRING \"integer\"" >> $HEADER
+			*"REAL") echo "#define DEF_NODE_TYPE REAL" >> $NODECONFIG
+				echo "#define DEF_NODE_FS \"%f\"" >> $NODECONFIG
+				echo "#define DEF_NODE_BIT fval" >> $NODECONFIG
+				echo "#define DEF_NODE_STRING \"float\"" >> $NODECONFIG
 					;;
-			*"REAL") echo "#define DEF_NODE_TYPE REAL" >> $HEADER
-				echo "#define DEF_NODE_FS \"%f\"" >> $HEADER
-				echo "#define DEF_NODE_BIT fval" >> $HEADER
-				echo "#define DEF_NODE_STRING \"float\"" >> $HEADER
-					;;
-			*"CHARACTER") echo "#define DEF_NODE_TYPE CHARACTER" >> $HEADER
-				echo "#define DEF_NODE_FS \" %c\"" >> $HEADER
-				echo "#define DEF_NODE_BIT cval" >> $HEADER
-				echo "#define DEF_NODE_STRING \"character\"" >> $HEADER
+			*"CHARACTER") echo "#define DEF_NODE_TYPE CHARACTER" >> $NODECONFIG
+				echo "#define DEF_NODE_FS \" %c\"" >> $NODECONFIG
+				echo "#define DEF_NODE_BIT cval" >> $NODECONFIG
+				echo "#define DEF_NODE_STRING \"character\"" >> $NODECONFIG
 					;;
 		esac
 	else
-		echo "#define MULVALUE" >> $HEADER
+		echo "#define MULVALUE" >> $NODECONFIG
 	fi
 
-	echo >> $HEADER
+	echo -e "\n#endif" >> $NODECONFIG
 
-	if [ "$QUEUECOUNT" -eq "0" ];
+	if [ ! -z "$3" ];
 	then
-		echo "#define DEF_QUEUE_TYPE LINEAR" >> $HEADER
-		echo "#define DEF_QUEUE_STRING \"Linear Queue\"" >> $HEADER
-		echo "#define CONFIG_LINEAR_QUEUE" >> $HEADER
-	elif [ "$QUEUECOUNT" -eq "1" ];
-	then
-		case $LASTQUEUEITEM in
-			*"LINEAR_QUEUE") echo "#define DEF_QUEUE_TYPE LINEAR" >> $HEADER
-				echo "#define DEF_QUEUE_STRING \"Linear Queue\"" >> $HEADER
-					;;
-			*"DEQUE") echo "#define DEF_QUEUE_TYPE DEQUE" >> $HEADER
-				echo "#define DEF_QUEUE_STRING \"Deque\"" >> $HEADER
-					;;
-			*"PRIORITY_QUEUE") echo "#define DEF_QUEUE_TYPE PRIORITY" >> $HEADER
-				echo "#define DEF_QUEUE_STRING \"Priority Queue\"" >> $HEADER
-					;;
-		esac
-	else
-		echo "#define MULQUEUE" >> $HEADER
+		source $3
 	fi
-	
-	echo >> $HEADER
 
 	echo "#endif" >> $HEADER
 
