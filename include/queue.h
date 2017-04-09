@@ -82,7 +82,6 @@ extern Status deleteNode(Position pos, Queue *queue);
 extern Status initQueue(Queue **queue, QueueType type, int limit);
 #ifdef CONFIG_PRIORITY_QUEUE
 extern Status addPriorityNode(Node *aNode,  Queue *queue);
-extern Status initPriorityNode(Node **aNode, Type type, Priority priority, Data value);
 extern Status deletePriorityNode(Queue *queue);
 #endif
 #endif
