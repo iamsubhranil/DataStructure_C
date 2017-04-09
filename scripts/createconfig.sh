@@ -52,17 +52,22 @@ else
 	    			if [ "${#PART[@]}" = "2" ];
        	       		 	then
                 	        	# Store the config name
-					ITEM=${PART[0]}
+					ITEMS=${PART[0]}
 					# Check the value
                         		VAL=${PART[1]}
 					echo -e "$blue $VAL $nocol\n (y/n) > "
 					read ANS < /dev/tty
-                        		case $ANS in
-                        		[Yy]* )
-                                		echo "$ITEM=y" >> $2;;
-                        		* )
-                                		echo "$ITEM=n" >> $2;;
-                        		esac
+					
+					IFS=',' read -ra ITEM <<< $ITEMS
+					for j in "${ITEM[@]}"
+					do
+                        			case $ANS in
+                        			[Yy]* )
+							echo "$j=y" >> $2;;
+                        			* )
+                                			echo "$j=n" >> $2;;
+                        			esac
+					done
 					fi
                 	fi
         done < $1
