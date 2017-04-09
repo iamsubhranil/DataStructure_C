@@ -61,69 +61,14 @@ Status createQueue(Queue **queue){
 	return initQueue(queue, type, limit);
 }
 
-Status createNode(Node **node, Queue *queue){
-	Type type;
-	Data value;
-	char choice;
-	if(queue->limit==queue->count)
-		return OVERFLOW;
+Status createQueueNode(Node **node, Queue *queue){
+	Status ret = createNode(node);
 #ifdef CONFIG_PRIORITY_QUEUE
-	Priority priority;
-#endif
-#ifdef MULVALUE
-	printf("\nWhat type of node do you want to create?");
-#ifdef CONFIG_NODE_INTEGER
-	printf("\n(I)nteger");
-#endif
-#ifdef CONFIG_NODE_REAL
-	printf("\n(R)eal");
-#endif
-#ifdef CONFIG_NODE_CHARACTER
-	printf("\n(C)haracter");
-#endif
-	printf(" : ");
-	scanf(" %c", &choice);
-	switch(choice){
-#ifdef CONFIG_NODE_INTEGER
-		case 'I' :
-		case 'i' : type = INTEGER;
-			printf("Enter the integer value : ");
-			scanf("%d",&value.ival);
-			break;
-#endif
-#ifdef CONFIG_NODE_REAL
-		case 'R' : 
-		case 'r' : type = REAL;
-			printf("Enter the real value : ");
-			scanf("%f",&value.fval);
-			break;
-#endif
-#ifdef CONFIG_NODE_CHARACTER
-		case 'C' : 
-		case 'c' : type = CHARACTER;
-			printf("Enter the character value : ");
-			scanf(" %c",&value.cval);
-			break;
-#endif
-		default : return WRONG_OPTION_CHOOSEN;
-			  break;
-	}
-#else
-	printf("\nEnter the value of the %s node : ", DEF_NODE_STRING);
-	scanf(DEF_NODE_FS,&value.DEF_NODE_BIT);
-	type = DEF_NODE_TYPE;
-#endif
-#ifdef CONFIG_PRIORITY_QUEUE
-	if(queue->type==PRIORITY){
-		printf("Enter the priority of the node\n1. High\n2. Medium\n3. Low : ");
-		scanf(" %c", &choice);
-		if(choice<'1' || choice>'3')
-			return WRONG_OPTION_CHOOSEN;
-		priority = choice=='1'?HIGH:choice=='2'?MED:LOW;
-		return initPriorityNode(node, type, priority, value);
+	if(queue->type==PRIORITY && ret==OP_SUCCESS){
+		ret = getPriority((*node));
 	}
 #endif
-	return initNode(node, type, value);
+	return ret;
 }
 
 int main(){
@@ -145,7 +90,7 @@ int main(){
 	//Add atleast one node before performing any operation
 	printf("\nBefore we continue, add at least one node.\n");
 	//Acquire a new node from the user and check if it succeeds.
-	if(createNode(&node, queue)==OP_SUCCESS){
+	if(createQueueNode(&node, queue)==OP_SUCCESS){
 		//If it does, add the node to the queue, and print the status
 
 #ifdef CONFIG_PRIORITY_QUEUE
@@ -175,7 +120,7 @@ int main(){
 			case 1: //Acquire a new node, and print the status
 				printf("\nCreating a new node");
 				printf("\n===================\n");
-				if(printStatus(createNode(&node, queue), NODE_CREATION)==OP_SUCCESS){
+				if(printStatus(createQueueNode(&node, queue), NODE_CREATION)==OP_SUCCESS){
 					//If creation succeeds, ask user the position of insertion, 
 					//insert it in the queue and print the status
 					printf("\n===================\n");
