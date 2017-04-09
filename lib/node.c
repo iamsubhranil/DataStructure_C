@@ -21,10 +21,20 @@ Status initNode(Node **aNode, Type type, Data value){
 		return NO_MEMORY_AVAILABLE;
 	(*aNode)->type = type;
 	(*aNode)->value = value;
+#ifdef CONFIG_NODE_PRIORITY
+	(*aNode)->priority = -1;
+#endif
 	return OP_SUCCESS;
 }
 
-#ifdef CONFIG_PRIORITY_QUEUE
+#ifdef CONFIG_NODE_PRIORITY
+Status initPriorityNode(Node **aNode, Type type, Priority priority, Data value){
+	Status stat = initNode(aNode, type, value);
+	if(stat==OP_SUCCESS)
+		(*aNode)->priority = priority;
+	return stat;
+}
+
 void printPriority(Priority p){
 	printf("\n");
 	switch(p){
@@ -35,7 +45,69 @@ void printPriority(Priority p){
 		case LOW: printf("Priority : Low");
 	}
 }
+
+Status getPriority(Node *aNode){
+	Priority priority;
+	char choice;
+	printf("Enter the priority of the node\n1. High\n2. Medium\n3. Low : ");
+	scanf(" %c", &choice);
+	if(choice<'1' || choice>'3')
+		return WRONG_OPTION_CHOOSEN;
+	priority = choice=='1'?HIGH:choice=='2'?MED:LOW;
+	aNode->priority = priority;
+	return OP_SUCCESS;
+}
 #endif
+
+Status createNode(Node **node){
+	Type type;
+	Data value;
+	char choice;
+#ifdef MULVALUE
+	printf("\nWhat type of node do you want to create?");
+#ifdef CONFIG_NODE_INTEGER
+	printf("\n(I)nteger");
+#endif
+#ifdef CONFIG_NODE_REAL
+	printf("\n(R)eal");
+#endif
+#ifdef CONFIG_NODE_CHARACTER
+	printf("\n(C)haracter");
+#endif
+	printf(" : ");
+	scanf(" %c", &choice);
+	switch(choice){
+#ifdef CONFIG_NODE_INTEGER
+		case 'I' :
+		case 'i' : type = INTEGER;
+			printf("Enter the integer value : ");
+			scanf("%d",&value.ival);
+			break;
+#endif
+#ifdef CONFIG_NODE_REAL
+		case 'R' : 
+		case 'r' : type = REAL;
+			printf("Enter the real value : ");
+			scanf("%f",&value.fval);
+			break;
+#endif
+#ifdef CONFIG_NODE_CHARACTER
+		case 'C' : 
+		case 'c' : type = CHARACTER;
+			printf("Enter the character value : ");
+			scanf(" %c",&value.cval);
+			break;
+#endif
+		default : return WRONG_OPTION_CHOOSEN;
+			  break;
+	}
+#else
+	printf("\nEnter the value of the %s node : ", DEF_NODE_STRING);
+	scanf(DEF_NODE_FS,&value.DEF_NODE_BIT);
+	type = DEF_NODE_TYPE;
+#endif
+	return initNode(node, type, value);
+}
 
 /*
    Prints the value of a node.
@@ -54,17 +126,15 @@ Status printNode(Node *aNode, int count){
 	Type type = aNode->type;
 	if(count>0)
 		printf("\n\nNode : %d",count);
-#ifdef CONFIG_PRIORITY_QUEUE
+#ifdef CONFIG_NODE_PRIORITY
 	if(aNode->priority>=0)
 		printPriority(aNode->priority);
 #endif
 	printf("\nNode type : ");
 	//Print the value associated with the type
 	switch(type){
-#ifdef CONFIG_NODE_INTEGER
 		case INTEGER: printf("Integer\nValue : %d",aNode->value.ival);
 			      break;
-#endif
 #ifdef CONFIG_NODE_REAL
 		case REAL: printf("Real\nValue : %g",aNode->value.fval);
 			   break;

@@ -113,13 +113,6 @@ int retry(){
 }
 
 #ifdef CONFIG_PRIORITY_QUEUE
-Status initPriorityNode(Node **aNode, Type type, Priority priority, Data value){
-	Status stat = initNode(aNode, type, value);
-	if(stat==OP_SUCCESS)
-		(*aNode)->priority = priority;
-	return stat;
-}
-
 Status addPriorityNode(Node *aNode, Queue *queue){
 	Node *temp = queue->front;
 	if(aNode==NULL)
