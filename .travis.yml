@@ -6,7 +6,9 @@ language: c
 compiler:
   - gcc
 
-script: make queue
+script: 
+        - make queue
+        - make stack
 
 notifications:
   email:
