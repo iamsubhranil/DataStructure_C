@@ -1,0 +1,14 @@
+os:
+  - linux
+
+language: c
+
+compiler:
+  - gcc
+
+script: make queue
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
