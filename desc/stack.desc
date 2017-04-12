@@ -1,0 +1,3 @@
+CONFIG_NODE_INTEGER=Do you want to add support for integer nodes?
+CONFIG_NODE_REAL=Do you want to add support for floating point nodes?
+CONFIG_NODE_CHARACTER=Do you want to add support for character nodes?
