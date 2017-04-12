@@ -15,7 +15,6 @@ Status push(Node *aNode, Stack *aStack){
 	if(aStack->count==aStack->limit)
 		return OVERFLOW;
 	aNode->nextNode = aStack->top;
-	aNode->nextNode = NULL;
 	aStack->top = aNode;
 	aStack->count++;
 	return OP_SUCCESS;
