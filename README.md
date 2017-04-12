@@ -1,4 +1,4 @@
-# DataStructure_C [![Build Status](https://travis-ci.org/iamsubhranil/DataStructure_C.svg?branch=master)](https://travis-ci.org/iamsubhranil/DataStructure_C)
+# DataStructure_C [![Build Status](https://travis-ci.org/iamsubhranil/DataStructure_C.svg?branch=libify)](https://travis-ci.org/iamsubhranil/DataStructure_C)
 ### Implementation of specific data structures in C
 The folders in this project acts as following :
 ##### `app`
