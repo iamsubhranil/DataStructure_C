@@ -19,6 +19,9 @@ queue : CUSTOMSCRIPT = $(CURDIR)/scripts/queueconfig.sh
 queue : APPNAME = queue_ll
 queue : generalbuild
 
+reconfigure_queue : DESCFILE = $(CURDIR)/desc/queue.desc
+reconfigure_queue : DEFCONFIG = $(CURDIR)/configs/queue_defconfig
+reconfigure_queue : general_reconfig
 rebuild_queue : reconfigure_queue queue
 
 stack : TARGET = stack
@@ -26,7 +29,14 @@ stack : LIBLOCATION = $(TARGET)
 stack : APPLOCATION = $(TARGET)
 stack : LIBNAME = stack
 stack : APPNAME = stack_ll
+stack : CONFIG = $(CURDIR)/configs/stack_defconfig
+stack : CONFIG_HEADER = $(CURDIR)/include/stack_config.h
 stack : generalbuild
+
+reconfigure_stack : DESCFILE = $(CURDIR)/desc/stack.desc
+reconfigure_stack : DEFCONFIG = $(CURDIR)/configs/stack_defconfig
+reconfigure_stack : general_reconfig
+rebuild_stack : reconfigure_stack stack
 
 generalbuild : CFLAGS = -O3 -w -I$(LIBHEADERLOC) -L$(CURDIR)/lib/$(LIBLOCATION)
 generalbuild :
@@ -40,5 +50,5 @@ generalbuild :
 	@ln -sf $(CURDIR)/app/$(APPLOCATION)/$(APPNAME).out $(CURDIR)/$(APPNAME).out
 	@echo "Don't forget to add library paths before running the program!"
 
-reconfigure_queue :
-	@bash $(CURDIR)/scripts/createconfig.sh desc/queue.desc configs/queue_defconfig
+general_reconfig :
+	@bash $(CURDIR)/scripts/createconfig.sh $(DESCFILE) $(DEFCONFIG)
