@@ -45,6 +45,7 @@ Status printStatus(Status status, OP_Type op){
 						 break;
 		case UNDEFINED_OPERATION: printf("Undefined operation!");
 					  break;
+		case VALUE_NOT_FOUND: printf("Given value not found in the search scope!");
 #ifdef CONFIG_PRIORITY_QUEUE
 		case INVALID_PRIORITY: printf("The queue does not contain any element of that priority!");
 				       break;
