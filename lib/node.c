@@ -64,7 +64,7 @@ Status createNode(Node **node){
 	Data value;
 	char choice;
 #ifdef MULVALUE
-	printf("\nWhat type of node do you want to create?");
+	printf("\nSelect the type of node =>");
 #ifdef CONFIG_NODE_INTEGER
 	printf("\n(I)nteger");
 #endif
@@ -149,4 +149,20 @@ Status printNode(Node *aNode, int count){
 	}
 	printf("\n");
 	return OP_SUCCESS;
+}
+
+int isValueEqual(Node *node1, Node *node2){
+	if(node1->type==node2->type){
+		switch(node1->type){
+			case INTEGER: return node1->value.ival==node2->value.ival;
+#ifdef CONFIG_NODE_REAL
+			case REAL: return node1->value.fval==node2->value.fval;
+#endif
+#ifdef CONFIG_NODE_CHARACTER
+			case CHARACTER: return node1->value.cval==node2->value.cval;
+#endif
+		}
+	}
+	else
+		return 0;
 }
