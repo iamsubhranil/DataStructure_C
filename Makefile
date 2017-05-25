@@ -38,6 +38,21 @@ reconfigure_stack : DEFCONFIG = $(CURDIR)/configs/stack_defconfig
 reconfigure_stack : general_reconfig
 rebuild_stack : reconfigure_stack stack
 
+linkedlist : TARGET = linkedlist
+linkedlist : LIBLOCATION = $(TARGET)
+linkedlist : APPLOCATION = $(TARGET)
+linkedlist : LIBNAME = linkedlist
+linkedlist : APPNAME = ll_frontend
+linkedlist : CONFIG = $(CURDIR)/configs/linkedlist_defconfig
+linkedlist : CONFIG_HEADER = $(CURDIR)/include/linkedlist_config.h
+linkedlist : generalbuild
+
+reconfigure_linkedlist : DESCFILE = $(CURDIR)/desc/linkedlist.desc
+reconfigure_linkedlist : DEFCONFIG = $(CURDIR)/configs/linkedlist_defconfig
+reconfigure_linkedlist : general_reconfig
+rebuild_linkedlist : reconfigure_linkedlist linkedlist
+
+
 generalbuild : CFLAGS = -O3 -w -I$(LIBHEADERLOC) -L$(CURDIR)/lib/$(LIBLOCATION)
 generalbuild :
 	@echo Creating header from config file..
