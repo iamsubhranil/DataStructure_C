@@ -99,7 +99,7 @@ else
 		echo "#ifndef NODE_CONFIG_H" >> $NODECONFIG
 		echo -e "#define NODE_CONFIG_H\n" >> $NODECONFIG
 	fi
-	if [ "$NODECOUNT" -eq "0" ] || ([ "$NODECOUNT" -eq "1" ] && [ "$LASTNODEITEM" = *"INTEGER" ]);
+	if [ "$NODECOUNT" -eq "0" ] || ([ "$NODECOUNT" -eq "1" ] && [[ "$LASTNODEITEM" = *"INTEGER" ]]);
 	then
 		echo "#define DEF_NODE_TYPE INTEGER" >> $NODECONFIG
 		echo "#define DEF_NODE_FS \"%d\"" >> $NODECONFIG
