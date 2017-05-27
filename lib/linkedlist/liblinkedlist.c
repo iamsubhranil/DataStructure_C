@@ -11,6 +11,17 @@ Status createList(LinkedList **list){
 	return OP_SUCCESS;
 }
 
+Status freeList(LinkedList *list){
+	Node *temp = list->head, *backup;
+	while(temp!=NULL){
+		backup = temp;
+		temp = temp->nextNode;
+		free(backup);
+	}
+	free(list);
+	return OP_SUCCESS;
+}
+
 Status insertAtFront(LinkedList *list, Node *node){
 	node->nextNode = list->head;
 	list->head = node;
@@ -161,9 +172,9 @@ Status deleteBeforeValue(LinkedList *list, Node *value){
 	return OP_SUCCESS;
 }
 
-void display(LinkedList *list){
-	if(list==NULL)
-		printf("\nList is empty!\n");
+Status displayList(LinkedList *list){
+	if(list->head==NULL)
+		return UNDERFLOW;
 	else{
 		Node *temp = list->head;
 		int i = 1;
@@ -172,4 +183,5 @@ void display(LinkedList *list){
 			temp = temp->nextNode;
 		}
 	}
+	return OP_SUCCESS;
 }

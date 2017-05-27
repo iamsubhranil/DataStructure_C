@@ -9,6 +9,8 @@ typedef struct LinkedList{
 } LinkedList;
 
 extern Status createList(LinkedList **list);
+extern Status freeList(LinkedList *list);
+extern Status displayList(LinkedList *list);
 
 extern Status insertAtFront(LinkedList *list, Node *node);
 extern Status insertAtEnd(LinkedList *list, Node *node);
