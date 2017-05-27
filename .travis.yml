@@ -9,6 +9,7 @@ compiler:
 script: 
         - make queue
         - make stack
+        - make linkedlist
 
 notifications:
   email:
