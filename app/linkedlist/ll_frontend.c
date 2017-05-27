@@ -49,11 +49,13 @@ int main(){
 					}
 					printStatus(ret, INSERTION);
 					break;
-				case 4:	printf("\nSelect the value to insert =>");
+				case 4:	printf("\nSelect the node to insert");
+					printf("\n==========================");
 					Node *node;
 					ret = createNode(&node);
 					if(ret==OP_SUCCESS){
-						printf("\nSelect the value to insert after =>");
+						printf("\nSelect the value to insert after");
+						printf("\n================================");
 						ret = createNode(&aNode);
 						if(ret==OP_SUCCESS)
 							ret = insertAfterValue(list, node, aNode);
@@ -67,7 +69,8 @@ int main(){
 				case 6: ret = deleteFromEnd(list);
 					printStatus(ret, DELETION);
 					break;
-				case 7: printf("\nSelect a node to delete : ");
+				case 7: printf("\nSelect the node to delete");
+					printf("\n=========================");
 					ret = createNode(&aNode);
 					if(ret==OP_SUCCESS){
 						ret = deleteValue(list, aNode);
@@ -75,16 +78,17 @@ int main(){
 					printStatus(ret, DELETION);
 					free(aNode);
 					break;
-				case 8: printf("Enter the position to delete : ");
+				case 8: printf("Enter the position to delete");
 					scanf("%d", &choice);
 					ret = deleteFromPos(list, choice);
 					choice = 1;
 					printStatus(ret, DELETION);
 					break;
-				case 9: printf("\nSelect the value to delete =>");
+				case 9: printf("\nSelect the node to delete before");
+					printf("\n================================");
 					ret = createNode(&aNode);
 					if(ret==OP_SUCCESS)
-						ret = deleteValue(list, aNode);
+						ret = deleteBeforeValue(list, aNode);
 					printStatus(ret, DELETION);
 					free(aNode);
 					break;
