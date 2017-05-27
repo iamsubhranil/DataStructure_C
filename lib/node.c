@@ -130,18 +130,32 @@ Status printNode(Node *aNode, int count){
 	if(aNode->priority>=0)
 		printPriority(aNode->priority);
 #endif
+#ifdef MULVALUE
 	printf("\nNode type : ");
+#endif
 	//Print the value associated with the type
 	switch(type){
-		case INTEGER: printf("Integer\nValue : %d",aNode->value.ival);
-			      break;
+		case INTEGER: 
+#ifdef MULVALUE
+			printf("Integer");
+#endif
+			printf("\nValue : %d",aNode->value.ival);
+			break;
 #ifdef CONFIG_NODE_REAL
-		case REAL: printf("Real\nValue : %g",aNode->value.fval);
-			   break;
+		case REAL:
+#ifdef MULVALUE	
+			printf("Real");
+#endif
+			printf("\nValue : %g",aNode->value.fval);
+			break;
 #endif
 #ifdef CONFIG_NODE_CHARACTER
-		case CHARACTER: printf("Character\nValue : %c",aNode->value.cval);
-				break;
+		case CHARACTER: 
+#ifdef MULVALUE
+			printf("Character");
+#endif
+			printf("\nValue : %c",aNode->value.cval);
+			break;
 #endif
 				//Type is none of the known!
 		default: printf("%d\nFATAL ERROR!\n",type);
