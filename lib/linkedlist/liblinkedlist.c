@@ -185,3 +185,25 @@ Status displayList(LinkedList *list){
 	}
 	return OP_SUCCESS;
 }
+
+Status reverseList(LinkedList **list){
+	if((*list)->head==NULL)
+		return UNDERFLOW;
+	Node *temp = (*list)->head;
+	LinkedList *newList;
+	Status ret;
+	ret = createList(&newList);
+	if(ret!=OP_SUCCESS)
+		return ret;
+	while(temp!=NULL){
+		Node *temp2;
+		ret = initNode(&temp2, temp->type, temp->value);
+		if(ret!=OP_SUCCESS)
+			return ret;
+		ret = insertAtFront(newList, temp2);
+		temp = temp->nextNode;
+	}
+	freeList(*list);
+	(*list) = newList;
+	return OP_SUCCESS;
+}

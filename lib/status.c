@@ -1,4 +1,5 @@
 #include<status.h>
+#include<stdio.h>
 /*
    Prints the status message for a particular status code. This is done
    to remove all the interface clutter from the actual operation code.
@@ -24,6 +25,8 @@ Status printStatus(Status status, OP_Type op){
 			       break;
 		case TRAVERSAL: printf("Traversal ");
 				break;
+		case REVERSAL: printf("Reversal ");
+			       break;
 	}
 	if(status==OP_SUCCESS){
 		printf("successful!\n");
