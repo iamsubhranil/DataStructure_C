@@ -60,7 +60,8 @@ typedef enum OP_Type {
 	NODE_CREATION,
 	INSERTION,
 	DELETION,
-	TRAVERSAL
+	TRAVERSAL,
+	REVERSAL
 } OP_Type;
 
 extern Status printStatus(Status status, OP_Type op);
