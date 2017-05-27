@@ -143,8 +143,8 @@ Status insertAfterValue(LinkedList *list, Node *node, Node *insertAfter){
 	if(temp==NULL)
 		return VALUE_NOT_FOUND;
 
-	node->nextNode = insertAfter->nextNode;
-	insertAfter->nextNode = node;
+	node->nextNode = temp->nextNode;
+	temp->nextNode = node;
 	list->count++;
 	return OP_SUCCESS;
 }
