@@ -24,6 +24,6 @@ extern Status deleteFromPos(LinkedList *list, int position);
 extern Status deleteBeforeValue(LinkedList *list, Node *value);
 
 extern Status reverseList(LinkedList **list);
-extern Status sort(LinkedList *list);
+extern Status sortList(LinkedList *list);
 
 #endif

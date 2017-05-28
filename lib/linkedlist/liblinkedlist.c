@@ -207,3 +207,22 @@ Status reverseList(LinkedList **list){
 	(*list) = newList;
 	return OP_SUCCESS;
 }
+
+Status sortList(LinkedList *list){
+	if(list->head==NULL)
+		return UNDERFLOW;
+	Node *temp = list->head;
+	while(temp->nextNode!=NULL){
+		Node *t2 = temp->nextNode;
+		while(t2!=NULL){
+			if(isValueGreater(temp, t2)){
+				Data t = temp->value;
+				temp->value = t2->value;
+				t2->value = t;
+			}
+			t2 = t2->nextNode;
+		}
+		temp = temp->nextNode;
+	}
+	return OP_SUCCESS;
+}

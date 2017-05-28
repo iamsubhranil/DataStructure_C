@@ -52,7 +52,6 @@ reconfigure_linkedlist : DEFCONFIG = $(CURDIR)/configs/linkedlist_defconfig
 reconfigure_linkedlist : general_reconfig
 rebuild_linkedlist : reconfigure_linkedlist linkedlist
 
-
 generalbuild : CFLAGS = -O3 -w -I$(LIBHEADERLOC) -L$(CURDIR)/lib/$(LIBLOCATION)
 generalbuild :
 	@echo Creating header from config file..

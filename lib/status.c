@@ -27,6 +27,8 @@ Status printStatus(Status status, OP_Type op){
 				break;
 		case REVERSAL: printf("Reversal ");
 			       break;
+		case SORTING: printf("Sorting ");
+			      break;
 	}
 	if(status==OP_SUCCESS){
 		printf("successful!\n");

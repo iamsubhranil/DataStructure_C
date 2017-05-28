@@ -83,7 +83,9 @@ typedef struct Node {
 extern Status initNode(Node **node, Type type, Data value);
 extern Status printNode(Node *aNode, int count);
 extern Status createNode(Node **aNode);
-extern isValueEqual(Node *node1, Node *node2);
+extern int isValueEqual(Node *node1, Node *node2);
+extern int isValueGreater(Node *node1, Node *node2);
+extern int isValueLesser(Node *node1, Node *node2);
 #ifdef CONFIG_NODE_PRIORITY
 extern Status initPriorityNode(Node **aNode, Type type, Priority priority, Data value);
 extern Status getPriority(Node *aNode);

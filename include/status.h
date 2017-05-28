@@ -61,7 +61,8 @@ typedef enum OP_Type {
 	INSERTION,
 	DELETION,
 	TRAVERSAL,
-	REVERSAL
+	REVERSAL,
+	SORTING
 } OP_Type;
 
 extern Status printStatus(Status status, OP_Type op);

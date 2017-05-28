@@ -180,3 +180,24 @@ int isValueEqual(Node *node1, Node *node2){
 	else
 		return 0;
 }
+
+int isValueGreater(Node *node1, Node *node2){
+	if(node1->type==node2->type){
+		switch(node1->type){
+			case INTEGER: return node1->value.ival>node2->value.ival;
+#ifdef CONFIG_NODE_REAL
+			case REAL: return node1->value.fval>node2->value.fval;
+#endif
+#ifdef CONFIG_NODE_CHARACTER
+			case CHARACTER: return node1->value.cval>node2->value.cval;
+#endif
+		}
+	}
+	else
+		return 0;
+
+}
+
+int isValueLesser(Node *node1, Node *node2){
+	return !isValueGreater(node1, node2);
+}
