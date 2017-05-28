@@ -3,7 +3,7 @@ all : cleantarget buildtarget
 
 buildtarget : $(APPLOCATION)/$(APPNAME).c
 	@echo Compiling target..
-	@$(CC) $(CFLAGS) $(APPLOCATION)/$(APPNAME).c -l$(LIBNAME) $(GENERICLIB) -o $(APPLOCATION)/$(APPNAME).out
+	@$(CC) $(CFLAGS) $(APPLOCATION)/$(APPNAME).c -l$(LIBNAME) $(GENERICLIB) -Wl,-rpath,lib/$(TARGET) -o $(APPLOCATION)/$(APPNAME).out
 
 cleantarget :
 	@echo Removing compiled target..

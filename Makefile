@@ -63,7 +63,7 @@ generalbuild :
 	@$(MAKE) -C app
 	@echo Creating shortcut..
 	@ln -sf $(CURDIR)/app/$(APPLOCATION)/$(APPNAME).out $(CURDIR)/$(APPNAME).out
-	@echo "Don't forget to add library paths before running the program!"
+	@echo Compilation successful!
 
 general_reconfig :
 	@bash $(CURDIR)/scripts/createconfig.sh $(DESCFILE) $(DEFCONFIG)
