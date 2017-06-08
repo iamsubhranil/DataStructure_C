@@ -11,7 +11,7 @@ int main(){
 	if(ret!=OP_SUCCESS)
 		printStatus(ret, STRUCTURE_CREATION);
 	else{
-		while(choice>-1 && choice<12){
+		while(choice>-1 && choice<13){
 			printf("\n0. Display");
 			printf("\n1. Insert at front");
 			printf("\n2. Insert at end");
@@ -24,6 +24,7 @@ int main(){
 			printf("\n9. Delete before value");
 			printf("\n10. Reverse list");
 			printf("\n11. Sort list");
+			printf("\n12. Alt. reverse list");
 			printf("\nEnter your choice : ");
 			scanf("%d", &choice);
 			switch(choice){
@@ -100,6 +101,9 @@ int main(){
 				case 11 : ret = sortList(list);
 					  printStatus(ret, SORTING);
 					  break;
+				case 12: ret = reverseListAlt(list);
+					 printStatus(ret, REVERSAL);
+					 break;
 			}
 		}
 		freeList(list);

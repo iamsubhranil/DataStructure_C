@@ -226,3 +226,20 @@ Status sortList(LinkedList *list){
 	}
 	return OP_SUCCESS;
 }
+
+Status reverseListAlt(LinkedList *list){
+	if(list->count==0)
+		return UNDERFLOW;
+	if(list->count==1)
+		return OP_SUCCESS;
+	Node *prev = NULL;
+	Node *temp = list->head;
+	while(temp!=NULL){
+		Node *copy = temp;
+		temp = temp->nextNode;
+		copy->nextNode = prev;
+		prev = copy;
+	}
+	list->head = prev;
+	return OP_SUCCESS;
+}
