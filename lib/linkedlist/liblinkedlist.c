@@ -208,9 +208,29 @@ Status reverseList(LinkedList **list){
 	return OP_SUCCESS;
 }
 
+void sortType(LinkedList *list){
+	Node *temp = list->head;
+	while(temp->nextNode!=NULL){
+		Node *t2 = temp->nextNode;
+		while(t2!=NULL){
+			if(t2->type>temp->type){
+				Data d = temp->value;
+				Type t = temp->type;
+				temp->type = t2->type;
+				temp->value = t2->value;
+				t2->value = d;
+				t2->type = t;
+			}
+			t2 = t2->nextNode;
+		}
+		temp = temp->nextNode;
+	}
+}
+
 Status sortList(LinkedList *list){
 	if(list->head==NULL)
 		return UNDERFLOW;
+	sortType(list);
 	Node *temp = list->head;
 	while(temp->nextNode!=NULL){
 		Node *t2 = temp->nextNode;
