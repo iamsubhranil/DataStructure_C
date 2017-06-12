@@ -48,7 +48,7 @@ Status printStatus(Status status, OP_Type op){
 				     break;
 		case INVALID_POSITION_SPECIFIED: printf("You've specified an invalid position!");
 						 break;
-		case UNDEFINED_OPERATION: printf("Undefined operation!");
+		case UNDEFINED_OPERATION: printf("The operation is not defined in present scope!");
 					  break;
 		case VALUE_NOT_FOUND: printf("Given value not found in the search scope!");
 #ifdef CONFIG_PRIORITY_QUEUE
