@@ -22,6 +22,7 @@ extern Status deleteFromEnd(LinkedList *list);
 extern Status deleteValue(LinkedList *list, Node * value);
 extern Status deleteFromPos(LinkedList *list, int position);
 extern Status deleteBeforeValue(LinkedList *list, Node *value);
+extern Status deleteSecondLargest(LinkedList *list);
 
 extern Status reverseList(LinkedList **list);
 extern Status sortList(LinkedList *list);

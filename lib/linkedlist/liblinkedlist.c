@@ -263,3 +263,37 @@ Status reverseListAlt(LinkedList *list){
 	list->head = prev;
 	return OP_SUCCESS;
 }
+
+Status deleteSecondLargest(LinkedList *list){
+#ifndef MULVALUE
+	if(list->count==0)
+		return UNDERFLOW;
+	if(list->count==1)
+		return VALUE_NOT_FOUND;
+	Node *temp = list->head;
+	Node *largest = temp;
+	Node *prev = NULL;
+	Node *prev1 = NULL;
+	Node *ptr = temp;
+	while(temp!=NULL){
+		if(isValueGreater(temp, largest)){
+			largest = temp;
+		}
+		else if(!isValueEqual(temp, largest) && isValueGreater(temp, ptr)){
+			prev1 = prev;
+			ptr = temp;
+		}
+		prev = temp;
+		temp = temp->nextNode;
+	}
+	if(ptr==list->head)
+		list->head = list->head->nextNode;
+	else
+		prev1->nextNode = ptr->nextNode;
+	free(ptr);
+	list->count--;
+	return OP_SUCCESS;
+#else
+	return UNDEFINED_OPERATION;
+#endif
+}

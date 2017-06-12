@@ -11,7 +11,7 @@ int main(){
 	if(ret!=OP_SUCCESS)
 		printStatus(ret, STRUCTURE_CREATION);
 	else{
-		while(choice>-1 && choice<13){
+		while(choice>-1 && choice<14){
 			printf("\n0. Display");
 			printf("\n1. Insert at front");
 			printf("\n2. Insert at end");
@@ -25,6 +25,7 @@ int main(){
 			printf("\n10. Reverse list");
 			printf("\n11. Sort list");
 			printf("\n12. Alt. reverse list");
+			printf("\n13. Delete second largest item");
 			printf("\nEnter your choice : ");
 			scanf("%d", &choice);
 			switch(choice){
@@ -103,6 +104,9 @@ int main(){
 					  break;
 				case 12: ret = reverseListAlt(list);
 					 printStatus(ret, REVERSAL);
+					 break;
+				case 13: ret = deleteSecondLargest(list);
+					 printStatus(ret, DELETION);
 					 break;
 			}
 		}
