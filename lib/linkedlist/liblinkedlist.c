@@ -292,13 +292,15 @@ Status deleteSecondLargest(LinkedList *list){
 			largest = temp;
 			prev0 = prev;
 		}
-		else if(ptr==NULL || isValueGreater(temp, ptr)){
+		else if(!isValueEqual(largest, temp) && (ptr==NULL || isValueGreater(temp, ptr))){
 			prev1 = prev;
 			ptr = temp;
 		}
 		prev = temp;
 		temp = temp->nextNode;
 	}
+	if(ptr==NULL)
+		return VALUE_NOT_FOUND;
 	if(ptr==list->head)
 		list->head = list->head->nextNode;
 	else
