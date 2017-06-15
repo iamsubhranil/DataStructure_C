@@ -82,7 +82,7 @@ int main(){
 					printStatus(ret, DELETION);
 					free(aNode);
 					break;
-				case 8: printf("Enter the position to delete");
+				case 8: printf("Enter the position to delete : ");
 					scanf("%d", &choice);
 					ret = deleteFromPos(list, choice);
 					choice = 1;

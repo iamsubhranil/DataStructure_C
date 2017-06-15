@@ -116,8 +116,8 @@ Status deleteFromPos(LinkedList *list, int pos){
 		return UNDERFLOW;
 	if(pos<1 || pos>list->count)
 		return INVALID_POSITION_SPECIFIED;
-	Node *backup, *current = list->head;
-	int i = 1;
+	Node *backup = list->head, *current = list->head;
+	int i = 0;
 	while(i<pos-1){
 		backup = current;
 		current = current->nextNode;

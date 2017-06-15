@@ -1,6 +1,7 @@
 #include<node.h>
 #include<stdlib.h>
 #include<stdio.h>
+#include<node_config.h>
 /*
    Initialize a node with given inputs from the user about
    its type and value.
@@ -21,6 +22,7 @@ Status initNode(Node **aNode, Type type, Data value){
 		return NO_MEMORY_AVAILABLE;
 	(*aNode)->type = type;
 	(*aNode)->value = value;
+	(*aNode)->nextNode = NULL;
 #ifdef CONFIG_NODE_PRIORITY
 	(*aNode)->priority = -1;
 #endif
@@ -169,11 +171,14 @@ int isValueEqual(Node *node1, Node *node2){
 	if(node1->type==node2->type){
 		switch(node1->type){
 			case INTEGER: return node1->value.ival==node2->value.ival;
+				      break;
 #ifdef CONFIG_NODE_REAL
 			case REAL: return node1->value.fval==node2->value.fval;
+				   break;
 #endif
 #ifdef CONFIG_NODE_CHARACTER
 			case CHARACTER: return node1->value.cval==node2->value.cval;
+					break;
 #endif
 		}
 	}
@@ -185,11 +190,14 @@ int isValueGreater(Node *node1, Node *node2){
 	if(node1->type==node2->type){
 		switch(node1->type){
 			case INTEGER: return node1->value.ival>node2->value.ival;
+				      break;
 #ifdef CONFIG_NODE_REAL
 			case REAL: return node1->value.fval>node2->value.fval;
+				   break;
 #endif
 #ifdef CONFIG_NODE_CHARACTER
 			case CHARACTER: return node1->value.cval>node2->value.cval;
+					break;
 #endif
 		}
 	}
