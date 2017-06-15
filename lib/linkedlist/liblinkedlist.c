@@ -270,16 +270,29 @@ Status deleteSecondLargest(LinkedList *list){
 		return UNDERFLOW;
 	if(list->count==1)
 		return VALUE_NOT_FOUND;
+
+	/* By : alexykuzmin0 (https://stackoverflow.com/users/1989995/alexeykuzmin0)
+	 * From :
+	 * https://stackoverflow.com/questions/44562724/deletion-of-second-largest-element-from-a-singly-linked-list/44563708#44563708
+	 *
+	 */
 	Node *temp = list->head;
-	Node *largest = temp;
 	Node *prev = NULL;
+
+	Node *largest = NULL;
+	Node *prev0 = NULL;
+
 	Node *prev1 = NULL;
 	Node *ptr = temp;
 	while(temp!=NULL){
-		if(isValueGreater(temp, largest)){
+		if(largest==NULL || isValueGreater(temp, largest)){
+			ptr = largest;
+			prev1 = prev0;
+
 			largest = temp;
+			prev0 = prev;
 		}
-		else if(!isValueEqual(temp, largest) && isValueGreater(temp, ptr)){
+		else if(ptr==NULL || isValueGreater(temp, ptr)){
 			prev1 = prev;
 			ptr = temp;
 		}
