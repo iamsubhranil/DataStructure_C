@@ -14,7 +14,7 @@ Arguments : 	1. op : The type of operation for which the position is required
 Return value :	Any one of possible position values, based on
 --------------	the selection of the user
  */
-Position getPos(OP_Type op, Queue *queue){
+Position queue_get_pos(OP_Type op, Queue *queue){
 	int choice;
 	//If the queue is a linear one, don't bother
 	if(queue->type==LINEAR
@@ -64,7 +64,7 @@ Position getPos(OP_Type op, Queue *queue){
    			2. OP_SUCCESS
    			3. Statuses of printNode()
  */
-Status traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNode, int count)){
+Status queue_traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNode, int count)){
 	int loccount = 1;
 	Status printStatus;
 	Node *aNode = queue->front;
@@ -98,8 +98,8 @@ Status traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNo
 	return OP_SUCCESS;
 }
 
-Status display(Queue *queue, Position pos){
-	return traverse(queue,pos,&printNode);
+Status queue_print(Queue *queue, Position pos){
+	return queue_traverse(queue,pos,&node_print);
 }
 /*
    Simple retry method which prompts the user to retry an operation.
@@ -113,7 +113,7 @@ int retry(){
 }
 
 #ifdef CONFIG_PRIORITY_QUEUE
-Status addPriorityNode(Node *aNode, Queue *queue){
+Status queue_ins_priority(Node *aNode, Queue *queue){
 	Node *temp = queue->front;
 	if(aNode==NULL)
 		return INTERNAL_ERROR;
@@ -143,8 +143,7 @@ Status addPriorityNode(Node *aNode, Queue *queue){
 	return OP_SUCCESS;
 }
 
-Status deletePriorityNode(Queue *queue)
-{
+Status queue_del_priority(Queue *queue){
 	Node *temp = queue->front;
 
 	if(queue->count==0)
@@ -178,7 +177,7 @@ Return value : One of the following statuses,
 		3. OP_SUCCESS
  */
 
-Status addNode(Position pos, Node *aNode, Queue *queue){
+Status queue_ins(Position pos, Node *aNode, Queue *queue){
 #if defined(CONFIG_LINEAR_QUEUE) || defined(CONFIG_DEQUE)
 	//Check if the node given to insert is NULL
 	if(aNode==NULL)
@@ -250,7 +249,7 @@ Return value :	One of the following statuses,
 		3. OP_SUCCESS
  */
 
-Status deleteNode(Position pos, Queue *queue){
+Status queue_del(Position pos, Queue *queue){
 #if defined(CONFIG_LINEAR_QUEUE) || defined(CONFIG_DEQUE)
 	Node *del;
 	//Check if the position is at all valid
@@ -324,7 +323,7 @@ Return value : Any one of the following statuses,
 		2. OP_SUCCESS
  */
 
-Status initQueue(Queue **queue, QueueType type, int limit){
+Status queue_init(Queue **queue, QueueType type, int limit){
 	//Allocate memory for the queue
 	*queue = (Queue *)malloc(sizeof(Queue));
 	//Check if the allocation succeeds
@@ -338,5 +337,4 @@ Status initQueue(Queue **queue, QueueType type, int limit){
 	(*queue)->type = type;
 
 	return OP_SUCCESS;
-
 }

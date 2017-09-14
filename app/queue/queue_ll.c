@@ -58,14 +58,14 @@ Status createQueue(Queue **queue){
 			return WRONG_OPTION_CHOOSEN;
 		}
 	}
-	return initQueue(queue, type, limit);
+	return queue_init(queue, type, limit);
 }
 
 Status createQueueNode(Node **node, Queue *queue){
-	Status ret = createNode(node);
+	Status ret = node_create(node);
 #ifdef CONFIG_PRIORITY_QUEUE
 	if(queue->type==PRIORITY && ret==OP_SUCCESS){
-		ret = getPriority((*node));
+		ret = node_get_priority((*node));
 	}
 #endif
 	return ret;
@@ -95,12 +95,12 @@ int main(){
 
 #ifdef CONFIG_PRIORITY_QUEUE
 		if(queue->type==PRIORITY)
-			printStatus(addPriorityNode(node, queue), INSERTION);
+			printStatus(queue_ins_priority(node, queue), INSERTION);
 		else
 		{
 			node->priority = -1;
 #endif
-			printStatus(addNode(FRONT, node, queue), INSERTION);
+			printStatus(queue_ins(FRONT, node, queue), INSERTION);
 #ifdef CONFIG_PRIORITY_QUEUE
 		}
 #endif
@@ -128,10 +128,10 @@ int main(){
 					printf("\n==========================\n");
 #ifdef CONFIG_PRIORITY_QUEUE
 					if(queue->type==PRIORITY)
-						printStatus(addPriorityNode(node, queue), INSERTION);
+						printStatus(queue_ins_priority(node, queue), INSERTION);
 					else
 #endif
-						printStatus(addNode(getPos(INSERTION, queue), node, queue), INSERTION);
+						printStatus(queue_ins(queue_get_pos(INSERTION, queue), node, queue), INSERTION);
 
 					printf("\n==========================\n");
 				}
@@ -143,16 +143,16 @@ int main(){
 				printf("\n=========================\n");
 #ifdef CONFIG_PRIORITY_QUEUE
 				if(queue->type==PRIORITY)
-					printStatus(deletePriorityNode(queue), DELETION);
+					printStatus(queue_del_priority(queue), DELETION);
 				else
 #endif
-					printStatus(deleteNode(getPos(DELETION, queue), queue),DELETION);
+					printStatus(queue_del(queue_get_pos(DELETION, queue), queue),DELETION);
 				printf("\n=========================\n");
 				break;
 			case 3: //Traverse the queue, and print the status
 				printf("\nTraversing the queue");
 				printf("\n====================\n");
-				printStatus(display(queue, getPos(TRAVERSAL, queue)),TRAVERSAL);
+				printStatus(queue_print(queue, queue_get_pos(TRAVERSAL, queue)),TRAVERSAL);
 				printf("\n====================\n");
 				break;
 		}

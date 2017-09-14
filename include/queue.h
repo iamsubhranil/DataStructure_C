@@ -1,9 +1,9 @@
 #ifndef _QUEUE_H
 #define _QUEUE_H
 //Include custom configuration file
-#include"queue_config.h"
-#include<status.h>
-#include<node.h>
+#include "queue_config.h"
+#include <status.h>
+#include <node.h>
 /*
 	A basic enum to compensate no boolean identifier
 	functionality in C.
@@ -73,15 +73,15 @@ typedef struct Queue {
 } Queue;
 
 //Functions
-extern int retry();
-extern Position getPos(OP_Type op, Queue *queue);
-extern Status traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNode, int count));
-extern Status display(Queue *queue, Position pos);
-extern Status addNode(Position pos, Node *aNode, Queue *queue);
-extern Status deleteNode(Position pos, Queue *queue);
-extern Status initQueue(Queue **queue, QueueType type, int limit);
+int retry();
+Position queue_get_pos(OP_Type op, Queue *queue);
+Status queue_traverse(Queue *queue, Position pos, Status (*performOperation)(Node *aNode, int count));
+Status queue_print(Queue *queue, Position pos);
+Status queue_ins(Position pos, Node *aNode, Queue *queue);
+Status queue_del(Position pos, Queue *queue);
+Status queue_init(Queue **queue, QueueType type, int limit);
 #ifdef CONFIG_PRIORITY_QUEUE
-extern Status addPriorityNode(Node *aNode,  Queue *queue);
-extern Status deletePriorityNode(Queue *queue);
+Status queue_ins_priority(Node *aNode,  Queue *queue);
+Status queue_del_priority(Queue *queue);
 #endif
 #endif

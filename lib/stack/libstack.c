@@ -1,41 +1,41 @@
-#include<stdlib.h>
-#include<stack.h>
+#include <stdlib.h>
+#include <stack.h>
+#include <linkedlist.h>
 
-Status initStack(Stack **stack){
+Status stack_init(Stack **stack){
 	(*stack) = (Stack *)malloc(sizeof(Stack));
 	if((*stack)==NULL)
 		return NO_MEMORY_AVAILABLE;
-	(*stack)->top = NULL;
+	(*stack)->list = NULL;
+    list_init(&(*stack)->list);
+    if((*stack)->list == NULL){
+        free((*stack));
+        return NO_MEMORY_AVAILABLE;
+    }
 	(*stack)->limit = -1;
-	(*stack)->count = 0;
+	(*stack)->list->count = 0;
 	return OP_SUCCESS;
 }
 
-Status push(Node *aNode, Stack *aStack){
-	if(aStack->count==aStack->limit)
+Status stack_push(Node *aNode, Stack *aStack){
+	if(aStack->list->count==aStack->limit)
 		return OVERFLOW;
-	aNode->nextNode = aStack->top;
-	aStack->top = aNode;
-	aStack->count++;
-	return OP_SUCCESS;
+	return list_ins_front(aStack->list, aNode);
 }
 
-Status pop(Node **aNode, Stack *aStack){
-	if(aStack->count==0)
+Status stack_pop(Stack *aStack){
+	if(aStack->list->count==0)
 		return UNDERFLOW;
-	(*aNode) = aStack->top;
-	aStack->top = aStack->top->nextNode;
-	aStack->count--;
-	return OP_SUCCESS;
+    return list_del_front(aStack->list);
 }
 
-Status display(Stack *aStack){
-	if(aStack->count==0)
+Status stack_print(Stack *aStack){
+	if(aStack->list->count==0)
 		return UNDERFLOW;
-	Node *temp = aStack->top;
+	Node *temp = aStack->list->head;
 	int count = 0;
 	while(temp!=NULL){
-		printNode(temp, ++count);
+		node_print(temp, ++count);
 		temp = temp->nextNode;
 	}
 	return OP_SUCCESS;

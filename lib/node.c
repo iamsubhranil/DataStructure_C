@@ -1,7 +1,7 @@
-#include<node.h>
-#include<stdlib.h>
-#include<stdio.h>
-#include<node_config.h>
+#include <node.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <node_config.h>
 /*
    Initialize a node with given inputs from the user about
    its type and value.
@@ -14,7 +14,7 @@ Return value : This method returns one of the following statuses,
 		2. OP_SUCCESS
  */
 
-Status initNode(Node **aNode, Type type, Data value){
+Status node_init(Node **aNode, Type type, Data value){
 	//Acquire a space for the node from the memory
 	(*aNode) = (Node *)malloc(sizeof(Node));
 	//Check if the memory is full
@@ -30,14 +30,14 @@ Status initNode(Node **aNode, Type type, Data value){
 }
 
 #ifdef CONFIG_NODE_PRIORITY
-Status initPriorityNode(Node **aNode, Type type, Priority priority, Data value){
-	Status stat = initNode(aNode, type, value);
+Status node_init_priority(Node **aNode, Type type, Priority priority, Data value){
+	Status stat = node_init(aNode, type, value);
 	if(stat==OP_SUCCESS)
 		(*aNode)->priority = priority;
 	return stat;
 }
 
-void printPriority(Priority p){
+static void node_print_priority(Priority p){
 	printf("\n");
 	switch(p){
 		case HIGH: printf("Priority : High");
@@ -48,7 +48,7 @@ void printPriority(Priority p){
 	}
 }
 
-Status getPriority(Node *aNode){
+Status node_get_priority(Node *aNode){
 	Priority priority;
 	char choice;
 	printf("Enter the priority of the node\n1. High\n2. Medium\n3. Low : ");
@@ -61,7 +61,7 @@ Status getPriority(Node *aNode){
 }
 #endif
 
-Status createNode(Node **node){
+Status node_create(Node **node){
 	Type type;
 	Data value;
 	char choice;
@@ -108,7 +108,7 @@ Status createNode(Node **node){
 	scanf(DEF_NODE_FS,&value.DEF_NODE_BIT);
 	type = DEF_NODE_TYPE;
 #endif
-	return initNode(node, type, value);
+	return node_init(node, type, value);
 }
 
 /*
@@ -123,14 +123,14 @@ Return values : Anyone of the following statuses,
 		2. OP_SUCCESS
  */
 
-Status printNode(Node *aNode, int count){
+Status node_print(Node *aNode, int count){
 	//Check the type of the node
 	Type type = aNode->type;
 	if(count>0)
 		printf("\n\nNode : %d",count);
 #ifdef CONFIG_NODE_PRIORITY
 	if(aNode->priority>=0)
-		printPriority(aNode->priority);
+		node_print_priority(aNode->priority);
 #endif
 #ifdef MULVALUE
 	printf("\nNode type : ");
@@ -167,7 +167,7 @@ Status printNode(Node *aNode, int count){
 	return OP_SUCCESS;
 }
 
-int isValueEqual(Node *node1, Node *node2){
+int node_isequal(Node *node1, Node *node2){
 	if(node1->type==node2->type){
 		switch(node1->type){
 			case INTEGER: return node1->value.ival==node2->value.ival;
@@ -186,7 +186,7 @@ int isValueEqual(Node *node1, Node *node2){
 		return 0;
 }
 
-int isValueGreater(Node *node1, Node *node2){
+int node_isgreater(Node *node1, Node *node2){
 	if(node1->type==node2->type){
 		switch(node1->type){
 			case INTEGER: return node1->value.ival>node2->value.ival;
@@ -206,6 +206,6 @@ int isValueGreater(Node *node1, Node *node2){
 
 }
 
-int isValueLesser(Node *node1, Node *node2){
-	return !isValueGreater(node1, node2);
+int node_islesser(Node *node1, Node *node2){
+	return !node_isgreater(node1, node2);
 }

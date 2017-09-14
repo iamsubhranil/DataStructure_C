@@ -1,30 +1,30 @@
 #ifndef LINKEDLIST_H
 #define LINKEDLIST_H
 
-#include<node.h>
-#include<status.h>
+#include <node.h>
+#include <status.h>
 typedef struct LinkedList{
 	Node *head;
 	int count;
 } LinkedList;
 
-extern Status createList(LinkedList **list);
-extern Status freeList(LinkedList *list);
-extern Status displayList(LinkedList *list);
+Status list_init(LinkedList **list);
+Status list_free(LinkedList *list);
+Status list_print(LinkedList *list);
 
-extern Status insertAtFront(LinkedList *list, Node *node);
-extern Status insertAtEnd(LinkedList *list, Node *node);
-extern Status insertAtPos(LinkedList *list, Node *node, int pos);
-extern Status insertAfterValue(LinkedList *list, Node *value, Node *insertAfter);
+Status list_ins_front(LinkedList *list, Node *node);
+Status list_ins_end(LinkedList *list, Node *node);
+Status list_ins_pos(LinkedList *list, Node *node, int pos);
+Status list_ins_after(LinkedList *list, Node *value, Node *insertAfter);
 
-extern Status deleteFromBeginning(LinkedList *list);
-extern Status deleteFromEnd(LinkedList *list);
-extern Status deleteValue(LinkedList *list, Node * value);
-extern Status deleteFromPos(LinkedList *list, int position);
-extern Status deleteBeforeValue(LinkedList *list, Node *value);
-extern Status deleteSecondLargest(LinkedList *list);
+Status list_del_front(LinkedList *list);
+Status list_del_end(LinkedList *list);
+Status list_del_val(LinkedList *list, Node * value);
+Status list_del_pos(LinkedList *list, int position);
+Status list_del_before(LinkedList *list, Node *value);
+Status list_del_second_largest(LinkedList *list);
 
-extern Status reverseList(LinkedList **list);
-extern Status sortList(LinkedList *list);
-extern Status reverseListAlt(LinkedList *list);
+Status list_reverse(LinkedList **list);
+Status list_sort(LinkedList *list);
+Status list_reverse_alt(LinkedList *list);
 #endif

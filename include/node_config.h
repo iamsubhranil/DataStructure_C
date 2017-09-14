@@ -3,6 +3,8 @@
 
 #define CONFIG_NODE_INTEGER
 #define CONFIG_NODE_REAL
+#define CONFIG_NODE_CHARACTER
+#define CONFIG_NODE_PRIORITY
 #define MULVALUE
 
 #endif

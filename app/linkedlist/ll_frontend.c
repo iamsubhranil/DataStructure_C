@@ -7,7 +7,7 @@ int main(){
 	Status ret;
 	Node *aNode;
 	int choice = 1;
-	ret = createList(&list);
+	ret = list_init(&list);
 	if(ret!=OP_SUCCESS)
 		printStatus(ret, STRUCTURE_CREATION);
 	else{
@@ -29,26 +29,26 @@ int main(){
 			printf("\nEnter your choice : ");
 			scanf("%d", &choice);
 			switch(choice){
-				case 0: ret = displayList(list);
+				case 0: ret = list_print(list);
 					printStatus(ret, TRAVERSAL);
 					break;
-				case 1:	ret = createNode(&aNode);
+				case 1:	ret = node_create(&aNode);
 					if(ret==OP_SUCCESS){
-						ret = insertAtFront(list, aNode);
+						ret = list_ins_front(list, aNode);
 					}
 					printStatus(ret, INSERTION);
 					break;
-				case 2: ret = createNode(&aNode);
+				case 2: ret = node_create(&aNode);
 					if(ret==OP_SUCCESS){
-						ret = insertAtEnd(list, aNode);
+						ret = list_ins_end(list, aNode);
 					}
 					printStatus(ret, INSERTION);
 					break;
-				case 3: ret = createNode(&aNode);
+				case 3: ret = node_create(&aNode);
 					if(ret==OP_SUCCESS){
 						printf("\nEnter the position you want to insert : ");
 						scanf("%d", &choice);
-						ret = insertAtPos(list, aNode, choice);
+						ret = list_ins_pos(list, aNode, choice);
 						choice = 1;
 					}
 					printStatus(ret, INSERTION);
@@ -56,61 +56,61 @@ int main(){
 				case 4:	printf("\nSelect the node to insert");
 					printf("\n==========================");
 					Node *node;
-					ret = createNode(&node);
+					ret = node_create(&node);
 					if(ret==OP_SUCCESS){
 						printf("\nSelect the value to insert after");
 						printf("\n================================");
-						ret = createNode(&aNode);
+						ret = node_create(&aNode);
 						if(ret==OP_SUCCESS)
-							ret = insertAfterValue(list, node, aNode);
+							ret = list_ins_after(list, node, aNode);
 						free(aNode);
 					}
 					printStatus(ret, INSERTION);
 					break;
-				case 5: ret = deleteFromBeginning(list);
+				case 5: ret = list_del_front(list);
 					printStatus(ret, DELETION);
 					break;
-				case 6: ret = deleteFromEnd(list);
+				case 6: ret = list_del_end(list);
 					printStatus(ret, DELETION);
 					break;
 				case 7: printf("\nSelect the node to delete");
 					printf("\n=========================");
-					ret = createNode(&aNode);
+					ret = node_create(&aNode);
 					if(ret==OP_SUCCESS){
-						ret = deleteValue(list, aNode);
+						ret = list_del_val(list, aNode);
 					}
 					printStatus(ret, DELETION);
 					free(aNode);
 					break;
 				case 8: printf("Enter the position to delete : ");
 					scanf("%d", &choice);
-					ret = deleteFromPos(list, choice);
+					ret = list_del_pos(list, choice);
 					choice = 1;
 					printStatus(ret, DELETION);
 					break;
 				case 9: printf("\nSelect the node to delete before");
 					printf("\n================================");
-					ret = createNode(&aNode);
+					ret = node_create(&aNode);
 					if(ret==OP_SUCCESS)
-						ret = deleteBeforeValue(list, aNode);
+						ret = list_del_before(list, aNode);
 					printStatus(ret, DELETION);
 					free(aNode);
 					break;
-				case 10: ret = reverseList(&list);
+				case 10: ret = list_reverse(&list);
 					 printStatus(ret, REVERSAL);
 					 break;
-				case 11 : ret = sortList(list);
+				case 11 : ret = list_sort(list);
 					  printStatus(ret, SORTING);
 					  break;
-				case 12: ret = reverseListAlt(list);
+				case 12: ret = list_reverse_alt(list);
 					 printStatus(ret, REVERSAL);
 					 break;
-				case 13: ret = deleteSecondLargest(list);
+				case 13: ret = list_del_second_largest(list);
 					 printStatus(ret, DELETION);
 					 break;
 			}
 		}
-		freeList(list);
+		list_free(list);
 	}
 	return 0;
 }

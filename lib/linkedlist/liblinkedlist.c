@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<linkedlist.h>
 
-Status createList(LinkedList **list){
+Status list_init(LinkedList **list){
 	(*list) = (LinkedList *)malloc(sizeof(LinkedList));
 	if((*list)==NULL)
 		return NO_MEMORY_AVAILABLE;
@@ -11,7 +11,7 @@ Status createList(LinkedList **list){
 	return OP_SUCCESS;
 }
 
-Status freeList(LinkedList *list){
+Status list_free(LinkedList *list){
 	Node *temp = list->head, *backup;
 	while(temp!=NULL){
 		backup = temp;
@@ -22,14 +22,14 @@ Status freeList(LinkedList *list){
 	return OP_SUCCESS;
 }
 
-Status insertAtFront(LinkedList *list, Node *node){
+Status list_ins_front(LinkedList *list, Node *node){
 	node->nextNode = list->head;
 	list->head = node;
 	list->count++;
 	return OP_SUCCESS;
 }
 
-Status insertAtEnd(LinkedList *list, Node *node){
+Status list_ins_end(LinkedList *list, Node *node){
 	if(list->head==NULL)
 		list->head = node;
 	else{
@@ -43,11 +43,11 @@ Status insertAtEnd(LinkedList *list, Node *node){
 	return OP_SUCCESS;
 }
 
-Status insertAtPos(LinkedList *list, Node *node, int pos){
+Status list_ins_pos(LinkedList *list, Node *node, int pos){
 	if(pos<1 || pos>list->count+1)
 		return INVALID_POSITION_SPECIFIED;
 	if(pos==1)
-		insertAtFront(list, node);
+		list_ins_front(list, node);
 	else{
 		Node *temp = list->head;
 		int i = 1;
@@ -60,7 +60,7 @@ Status insertAtPos(LinkedList *list, Node *node, int pos){
 	return OP_SUCCESS;
 }
 
-Status deleteFromBeginning(LinkedList *list){
+Status list_del_front(LinkedList *list){
 	if(list->count==0)
 		return UNDERFLOW;
 	Node *temp = list->head;
@@ -70,7 +70,7 @@ Status deleteFromBeginning(LinkedList *list){
 	return OP_SUCCESS;
 }
 
-Status deleteFromEnd(LinkedList *list){
+Status list_del_end(LinkedList *list){
 	if(list->count==0)
 		return UNDERFLOW;
 	Node *backup, *current = list->head;
@@ -87,12 +87,12 @@ Status deleteFromEnd(LinkedList *list){
 	return OP_SUCCESS;
 }
 
-Status deleteValue(LinkedList *list, Node *value){
+Status list_del_val(LinkedList *list, Node *value){
 	if(list->count==0)
 		return UNDERFLOW;
 	Node *backup, *current = list->head;
 	while(current!=NULL){
-		if(isValueEqual(current, value))
+		if(node_isequal(current, value))
 			break;
 		backup = current;
 		current = current->nextNode;
@@ -101,7 +101,7 @@ Status deleteValue(LinkedList *list, Node *value){
 		return VALUE_NOT_FOUND;
 	else{
 		if(current==list->head)
-			return deleteFromBeginning(list);
+			return list_del_front(list);
 		else{
 			backup->nextNode = current->nextNode;
 			free(current);
@@ -111,7 +111,7 @@ Status deleteValue(LinkedList *list, Node *value){
 	return OP_SUCCESS;
 }
 
-Status deleteFromPos(LinkedList *list, int pos){
+Status list_del_pos(LinkedList *list, int pos){
 	if(list->count==0)
 		return UNDERFLOW;
 	if(pos<1 || pos>list->count)
@@ -124,7 +124,7 @@ Status deleteFromPos(LinkedList *list, int pos){
 		i++;
 	}
 	if(pos==1)
-		return deleteFromBeginning(list);
+		return list_del_front(list);
 	else{
 		backup->nextNode = current->nextNode;
 		list->count--;
@@ -133,10 +133,10 @@ Status deleteFromPos(LinkedList *list, int pos){
 	return OP_SUCCESS;
 }
 
-Status insertAfterValue(LinkedList *list, Node *node, Node *insertAfter){
+Status list_ins_after(LinkedList *list, Node *node, Node *insertAfter){
 	Node *temp = list->head;
 	while(temp!=NULL){
-		if(isValueEqual(insertAfter, temp))
+		if(node_isequal(insertAfter, temp))
 			break;
 		temp = temp->nextNode;
 	}
@@ -149,15 +149,15 @@ Status insertAfterValue(LinkedList *list, Node *node, Node *insertAfter){
 	return OP_SUCCESS;
 }
 
-Status deleteBeforeValue(LinkedList *list, Node *value){
+Status list_del_before(LinkedList *list, Node *value){
 	if(list->head==NULL)
 		return UNDERFLOW;
-	if(isValueEqual(list->head, value)){
+	if(node_isequal(list->head, value)){
 		return INVALID_POSITION_SPECIFIED;
 	}
 	Node *temp = list->head, *backup;
 	while(temp->nextNode!=NULL){
-		if(isValueEqual(temp->nextNode, value))
+		if(node_isequal(temp->nextNode, value))
 			break;
 		backup = temp;
 		temp = temp->nextNode;
@@ -172,43 +172,43 @@ Status deleteBeforeValue(LinkedList *list, Node *value){
 	return OP_SUCCESS;
 }
 
-Status displayList(LinkedList *list){
+Status list_print(LinkedList *list){
 	if(list->head==NULL)
 		return UNDERFLOW;
 	else{
 		Node *temp = list->head;
 		int i = 1;
 		while(temp!=NULL){
-			printNode(temp, i++);
+			node_print(temp, i++);
 			temp = temp->nextNode;
 		}
 	}
 	return OP_SUCCESS;
 }
 
-Status reverseList(LinkedList **list){
+Status list_reverse(LinkedList **list){
 	if((*list)->head==NULL)
 		return UNDERFLOW;
 	Node *temp = (*list)->head;
 	LinkedList *newList;
 	Status ret;
-	ret = createList(&newList);
+	ret = list_init(&newList);
 	if(ret!=OP_SUCCESS)
 		return ret;
 	while(temp!=NULL){
 		Node *temp2;
-		ret = initNode(&temp2, temp->type, temp->value);
+		ret = node_init(&temp2, temp->type, temp->value);
 		if(ret!=OP_SUCCESS)
 			return ret;
-		ret = insertAtFront(newList, temp2);
+		ret = list_ins_front(newList, temp2);
 		temp = temp->nextNode;
 	}
-	freeList(*list);
+	list_free(*list);
 	(*list) = newList;
 	return OP_SUCCESS;
 }
 
-void sortType(LinkedList *list){
+static void list_sort_type(LinkedList *list){
 	Node *temp = list->head;
 	while(temp->nextNode!=NULL){
 		Node *t2 = temp->nextNode;
@@ -227,15 +227,15 @@ void sortType(LinkedList *list){
 	}
 }
 
-Status sortList(LinkedList *list){
+Status list_sort(LinkedList *list){
 	if(list->head==NULL)
 		return UNDERFLOW;
-	sortType(list);
+    list_sort_type(list);
 	Node *temp = list->head;
 	while(temp->nextNode!=NULL){
 		Node *t2 = temp->nextNode;
 		while(t2!=NULL){
-			if(isValueGreater(temp, t2)){
+			if(node_isgreater(temp, t2)){
 				Data t = temp->value;
 				temp->value = t2->value;
 				t2->value = t;
@@ -247,7 +247,7 @@ Status sortList(LinkedList *list){
 	return OP_SUCCESS;
 }
 
-Status reverseListAlt(LinkedList *list){
+Status list_reverse_alt(LinkedList *list){
 	if(list->count==0)
 		return UNDERFLOW;
 	if(list->count==1)
@@ -264,8 +264,8 @@ Status reverseListAlt(LinkedList *list){
 	return OP_SUCCESS;
 }
 
-Status deleteSecondLargest(LinkedList *list){
-#ifndef MULVALUE
+Status list_del_second_largest(LinkedList *list){
+//#ifndef MULVALUE
 	if(list->count==0)
 		return UNDERFLOW;
 	if(list->count==1)
@@ -285,14 +285,14 @@ Status deleteSecondLargest(LinkedList *list){
 	Node *prev1 = NULL;
 	Node *ptr = temp;
 	while(temp!=NULL){
-		if(largest==NULL || isValueGreater(temp, largest)){
+		if(largest==NULL || node_isgreater(temp, largest)){
 			ptr = largest;
 			prev1 = prev0;
 
 			largest = temp;
 			prev0 = prev;
 		}
-		else if(!isValueEqual(largest, temp) && (ptr==NULL || isValueGreater(temp, ptr))){
+		else if(!node_isequal(largest, temp) && (ptr==NULL || node_isgreater(temp, ptr))){
 			prev1 = prev;
 			ptr = temp;
 		}
@@ -308,7 +308,7 @@ Status deleteSecondLargest(LinkedList *list){
 	free(ptr);
 	list->count--;
 	return OP_SUCCESS;
-#else
-	return UNDEFINED_OPERATION;
-#endif
+//#else
+//	return UNDEFINED_OPERATION;
+//#endif
 }

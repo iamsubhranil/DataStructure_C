@@ -1,5 +1,7 @@
 #ifndef STATUS_H
 #define STATUS_H
+
+#include "node_config.h"
 /*
 	These are the basic status codes used throughout the programs,
 	to indicate the status of a particular operation.
@@ -34,9 +36,9 @@ typedef enum Status {
 	INVALID_POSITION_SPECIFIED,
 	OP_SUCCESS,
 	UNDEFINED_OPERATION,
-	VALUE_NOT_FOUND,
-#ifdef CONFIG_PRIORITY_QUEUE
-	,INVALID_PRIORITY
+	VALUE_NOT_FOUND
+#ifdef CONFIG_NODE_PRIORITY
+	, INVALID_PRIORITY
 #endif
 } Status;
 
@@ -65,5 +67,5 @@ typedef enum OP_Type {
 	SORTING
 } OP_Type;
 
-extern Status printStatus(Status status, OP_Type op);
+Status printStatus(Status status, OP_Type op);
 #endif

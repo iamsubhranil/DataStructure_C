@@ -1,18 +1,18 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include"status.h"
-#include"node.h"
+#include "status.h"
+#include "node.h"
+#include "linkedlist.h"
 
 typedef struct Stack {
-	Node *top;
+	LinkedList *list;
 	int limit;
-	int count;
 } Stack;
 
-extern Status pop(Node **aNode, Stack *stack);
-extern Status push(Node *aNode, Stack *stack);
-extern Status display(Stack *stack);
-extern Status initStack(Stack **stack);
+Status stack_pop(Stack *stack);
+Status stack_push(Node *aNode, Stack *stack);
+Status stack_print(Stack *stack);
+Status stack_init(Stack **stack);
 
 #endif

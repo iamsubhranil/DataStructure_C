@@ -1,8 +1,8 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include<status.h>
-#include"node_config.h"
+#include <status.h>
+#include "node_config.h"
 /*
 	These are the types of data that can be stored inside a structure,
 	and each node can contain any one of them.
@@ -80,14 +80,14 @@ typedef struct Node {
 #endif
 } Node;
 
-extern Status initNode(Node **node, Type type, Data value);
-extern Status printNode(Node *aNode, int count);
-extern Status createNode(Node **aNode);
-extern int isValueEqual(Node *node1, Node *node2);
-extern int isValueGreater(Node *node1, Node *node2);
-extern int isValueLesser(Node *node1, Node *node2);
+Status node_init(Node **node, Type type, Data value);
+Status node_print(Node *aNode, int count);
+Status node_create(Node **aNode);
+int node_isequal(Node *node1, Node *node2);
+int node_isgreater(Node *node1, Node *node2);
+int node_islesser(Node *node1, Node *node2);
 #ifdef CONFIG_NODE_PRIORITY
-extern Status initPriorityNode(Node **aNode, Type type, Priority priority, Data value);
-extern Status getPriority(Node *aNode);
+Status node_init_priority(Node **aNode, Type type, Priority priority, Data value);
+Status node_get_priority(Node *aNode);
 #endif
 #endif
