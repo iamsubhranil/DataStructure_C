@@ -3,15 +3,21 @@
 The folders in this project acts as following :
 ##### `app`
 Implementation of the libraries using a frontend application
-##### `configs`
-Configuration of apps and libraries (if the app or library supports) in a `PROPERTY=y`/`PROPERTY=n` manner, which later gets converted to `#define`s, much inspired by the linux kernel
-##### `desc`
-A collection of `PROPERTY` descriptors, to let the user select a `PROPERTY` in a user-friendly way, again inspired by the linux kernel
 ##### `include`
-Custom headers for the libraries and apps, which later gets included as a default `include` location by `-I` switch
+Custom headers for the libraries and apps, which later gets included as a default `include` location
 ##### `lib`
 The folder for backend libraries
-##### `scripts`
-Various scripts needed by the framework
-##### `Makefile`
-The deafult `make` targets
+##### `CMakeLists.txt`
+CMake configuration files
+
+### Building
+```
+mkdir build
+cd build
+cmake ..
+make all
+```
+The binaries are created in `source_folder/out/lib`(Libraries) and `source_folder/out/bin`(Frontends).
+
+### Contributions
+Welcome!
