@@ -1,17 +1,29 @@
 os:
-  - linux
+    - linux
 
 language: c
 
 compiler:
-  - gcc
+    - gcc
+    - clang
 
-script: 
-        - make queue
-        - make stack
-        - make linkedlist
+matrix:
+    include:
+    - env: CXX=g++ CC=gcc
+    - env: CXX=clang++ CC=clang
+
+install:
+    - sudo apt-get install -qq cmake
+
+before_script:
+    - mkdir build
+    - cd build
+    - cmake ../CMakeLists.txt
+
+script:
+    - make all
 
 notifications:
-  email:
-    on_success: never
-    on_failure: always
+    email:
+        on_success: never
+        on_failure: always
