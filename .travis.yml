@@ -1,16 +1,11 @@
 os:
     - linux
-    - osx
 
 language: c
 
 compiler:
     - gcc
     - clang
-
-env: 
-    - CXX=g++ CC=gcc
-    - CXX=clang++ CC=clang
 
 install:
     - sudo apt-get install -qq cmake
