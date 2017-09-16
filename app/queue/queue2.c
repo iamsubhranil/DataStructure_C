@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <queue.h>
+#include <queuell.h>
 /*
    Main wrapper to the program. User will see only this menu,
    and all of the operations will return back to this method.
@@ -8,42 +8,28 @@ Status createQueue(Queue **queue){
     char choice;
     QueueType type = LINEAR;
     int limit = -1;
-#ifdef MULQUEUE
     printf("\nWhat type of queue do you want?");
-#ifdef CONFIG_LINEAR_QUEUE
     printf("\n(L)inear queue");
-#endif
-#ifdef CONFIG_DEQUE
     printf("\n(D)eque");
-#endif
-#ifdef CONFIG_PRIORITY_QUEUE
     printf("\n(P)riority queue");
-#endif
     printf(" : ");
     scanf(" %c", &choice);
     switch(choice){
-#ifdef CONFIG_LINEAR_QUEUE
         case 'L' : 
         case 'l' : type = LINEAR;
                    break;
-#endif
-#ifdef CONFIG_DEQUE
+
         case 'D' : 
         case 'd' : type = DEQUE;
                    break;
-#endif
-#ifdef CONFIG_PRIORITY_QUEUE
+
         case 'P' : 
         case 'p' : type = PRIORITY;
                    break;
-#endif
+
         default : return WRONG_OPTION_CHOOSEN;
                   break;
     }
-#else
-    printf("Queue type : %s\n", DEF_QUEUE_STRING);
-    type = DEF_QUEUE_TYPE;
-#endif
 
     printf("Do you want the queue to be size restricted?\n1. Yes\n2. No : ");
     scanf(" %c",&choice);
@@ -58,17 +44,15 @@ Status createQueue(Queue **queue){
             return WRONG_OPTION_CHOOSEN;
         }
     }
-    return queue_init(queue, type, limit);
+    return queuell_init(queue, type, limit);
 }
 
 Status createQueueNode(Node **node, Queue *queue){
     Status ret;
-#ifdef CONFIG_PRIORITY_QUEUE
-    if(queue->type==PRIORITY && ret==OP_SUCCESS){
+    if(queue->type==PRIORITY){
         ret = node_create(node, 1);
     }
     else
-#endif
         ret = node_create(node, 0);
     return ret;
 }
@@ -88,24 +72,13 @@ int main(){
         return 1;
     }
     printf("\n==================\n");
-
+    node_configure();
     //Add atleast one node before performing any operation
     printf("\nBefore we continue, add at least one node.\n");
     //Acquire a new node from the user and check if it succeeds.
     if(createQueueNode(&node, queue)==OP_SUCCESS){
         //If it does, add the node to the queue, and print the status
-
-#ifdef CONFIG_PRIORITY_QUEUE
-        if(queue->type==PRIORITY)
-            status_print(queue_ins_priority(node, queue), INSERTION);
-        else
-        {
-            node->priority = LOW;
-#endif
-            status_print(queue_ins(FRONT, node, queue), INSERTION);
-#ifdef CONFIG_PRIORITY_QUEUE
-        }
-#endif
+        status_print(queuell_ins(queue, node), INSERTION);
         choice = 1;
     }
     else{
@@ -128,13 +101,7 @@ int main(){
                     printf("\n===================\n");
                     printf("\nInserting the created node");
                     printf("\n==========================\n");
-#ifdef CONFIG_PRIORITY_QUEUE
-                    if(queue->type==PRIORITY)
-                        status_print(queue_ins_priority(node, queue), INSERTION);
-                    else
-#endif
-                        status_print(queue_ins(queue_get_pos(INSERTION, queue), node, queue), INSERTION);
-
+                    status_print(queuell_ins(queue, node), INSERTION);
                     printf("\n==========================\n");
                 }
                 else
@@ -143,20 +110,17 @@ int main(){
             case 2: //Ask point of deletion, delete the node, and print the status
                 printf("\nDeleting an existing node");
                 printf("\n=========================\n");
-#ifdef CONFIG_PRIORITY_QUEUE
-                if(queue->type==PRIORITY)
-                    status_print(queue_del_priority(queue), DELETION);
-                else
-#endif
-                    status_print(queue_del(queue_get_pos(DELETION, queue), queue),DELETION);
+                status_print(queuell_del(queue),DELETION);
                 printf("\n=========================\n");
                 break;
             case 3: //Traverse the queue, and print the status
                 printf("\nTraversing the queue");
                 printf("\n====================\n");
-                status_print(queue_print(queue, queue_get_pos(TRAVERSAL, queue)),TRAVERSAL);
+                status_print(queuell_print(queue),TRAVERSAL);
                 printf("\n====================\n");
                 break;
         }
     }
+    queuell_free(queue);
+    return 0;
 }

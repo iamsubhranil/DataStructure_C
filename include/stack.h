@@ -1,9 +1,9 @@
 #ifndef STACK_H
 #define STACK_H
 
-#include "status.h"
-#include "node.h"
-#include "linkedlist.h"
+#include <status.h>
+#include <node.h>
+#include <linkedlist.h>
 
 typedef struct Stack {
 	LinkedList *list;

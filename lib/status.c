@@ -10,7 +10,7 @@ Arguments : 	1. status : The status to analyze
 Return value : 	1. The status to analyze for further use
 --------------
  */
-Status printStatus(Status status, OP_Type op){
+Status status_print(Status status, OP_Type op){
 	printf("\n");
 	if(status!=OP_SUCCESS)
 		printf("Error : ");
@@ -51,10 +51,11 @@ Status printStatus(Status status, OP_Type op){
 		case UNDEFINED_OPERATION: printf("The operation is not defined in present scope!");
 					  break;
 		case VALUE_NOT_FOUND: printf("Given value not found in the search scope!");
-#ifdef CONFIG_PRIORITY_QUEUE
+                        break;
 		case INVALID_PRIORITY: printf("The queue does not contain any element of that priority!");
 				       break;
-#endif
+        default:
+                               break;
 	}
 	printf("\n");
 	return status;

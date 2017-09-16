@@ -1,6 +1,6 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<linkedlist.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <linkedlist.h>
 
 Status list_init(LinkedList **list){
 	(*list) = (LinkedList *)malloc(sizeof(LinkedList));
@@ -12,12 +12,7 @@ Status list_init(LinkedList **list){
 }
 
 Status list_free(LinkedList *list){
-	Node *temp = list->head, *backup;
-	while(temp!=NULL){
-		backup = temp;
-		temp = temp->nextNode;
-		free(backup);
-	}
+	node_free(list->head);
 	free(list);
 	return OP_SUCCESS;
 }
@@ -265,12 +260,12 @@ Status list_reverse_alt(LinkedList *list){
 }
 
 Status list_del_second_largest(LinkedList *list){
-//#ifndef MULVALUE
-	if(list->count==0)
+    if(node_typecount() > 1)
+        return UNDEFINED_OPERATION;
+    if(list->count==0)
 		return UNDERFLOW;
 	if(list->count==1)
 		return VALUE_NOT_FOUND;
-
 	/* By : alexykuzmin0 (https://stackoverflow.com/users/1989995/alexeykuzmin0)
 	 * From :
 	 * https://stackoverflow.com/questions/44562724/deletion-of-second-largest-element-from-a-singly-linked-list/44563708#44563708
@@ -308,7 +303,4 @@ Status list_del_second_largest(LinkedList *list){
 	free(ptr);
 	list->count--;
 	return OP_SUCCESS;
-//#else
-//	return UNDEFINED_OPERATION;
-//#endif
 }
