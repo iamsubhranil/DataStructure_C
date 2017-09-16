@@ -1,3 +1,0 @@
-CONFIG_NODE_INTEGER=Do you want to add support for nodes containing integer value?
-CONFIG_NODE_REAL=Do you want to add support for nodes containing real(i.e. floating point) value?
-CONFIG_NODE_CHARACTER=Do you want to add support for nodes containing character value?

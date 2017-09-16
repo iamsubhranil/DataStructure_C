@@ -4,3 +4,5 @@ configs/queue_defconfig
 *.so
 *_config.h
 *.bak
+build/*
+out/*
