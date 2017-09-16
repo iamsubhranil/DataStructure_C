@@ -1,5 +1,6 @@
 os:
     - linux
+    - osx
 
 language: c
 
@@ -7,18 +8,18 @@ compiler:
     - gcc
     - clang
 
-matrix:
-    include:
-    - env: CXX=g++ CC=gcc
-    - env: CXX=clang++ CC=clang
+env: 
+    - CXX=g++ CC=gcc
+    - CXX=clang++ CC=clang
 
 install:
     - sudo apt-get install -qq cmake
 
-before_script:
-    - cmake CMakeLists.txt
-
 script:
+    - rm -rf build
+    - mkdir build
+    - cd build
+    - cmake ..
     - make all
 
 notifications:
