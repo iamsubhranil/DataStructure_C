@@ -16,9 +16,7 @@ install:
     - sudo apt-get install -qq cmake
 
 before_script:
-    - mkdir -p build
-    - cd build
-    - cmake ../CMakeLists.txt
+    - cmake CMakeLists.txt
 
 script:
     - make all
