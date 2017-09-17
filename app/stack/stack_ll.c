@@ -45,5 +45,6 @@ int main(){
 				 break;
 		}
 	}
+    stack_free(stack);
 	return 0;
 }

@@ -40,3 +40,9 @@ Status stack_print(Stack *aStack){
 	}
 	return OP_SUCCESS;
 }
+
+Status stack_free(Stack *stack){
+    list_free(stack->list);
+    free(stack);
+    return OP_SUCCESS;
+}

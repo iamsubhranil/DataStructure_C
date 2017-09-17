@@ -14,5 +14,6 @@ Status stack_pop(Stack *stack);
 Status stack_push(Node *aNode, Stack *stack);
 Status stack_print(Stack *stack);
 Status stack_init(Stack **stack);
+Status stack_free(Stack *stack);
 
 #endif
